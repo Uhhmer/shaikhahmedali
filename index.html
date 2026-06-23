@@ -207,19 +207,19 @@ section{position:relative}
 /* ============================== WORK ============================== */
 .work{background:var(--cream)}
 .work__list{display:grid;gap:clamp(10px,1.4vw,18px)}
-.proj{position:relative;display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:center;padding:clamp(20px,3vw,38px) 4px;border-top:1.5px solid rgba(26,28,19,.16);transition:padding-left .4s var(--ease)}
+.proj{position:relative;display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;padding:clamp(20px,3vw,38px) 4px;border-top:1.5px solid rgba(26,28,19,.16);transition:padding-left .4s var(--ease)}
 .proj:last-child{border-bottom:1.5px solid rgba(26,28,19,.16)}
 .proj:hover{padding-left:18px}
 .proj__idx{font-family:var(--font-ui);font-weight:700;font-size:.8rem;color:var(--ink-soft)}
 .proj__title{display:block;font-family:var(--font-display);text-transform:uppercase;font-size:clamp(1.8rem,5vw,3.4rem);line-height:.95}
 .proj__meta{font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;margin-top:6px}
-.proj__arrow{width:46px;height:46px;border-radius:50%;border:1.5px solid rgba(26,28,19,.25);display:grid;place-items:center;transition:background .3s,transform .3s var(--ease),border-color .3s}
+.proj__arrow{display:none}
 .proj:hover .proj__arrow{background:var(--lime);transform:rotate(-45deg);border-color:var(--lime)}
 .proj__arrow svg{width:18px;height:18px}
 .proj__preview{position:fixed;top:0;left:0;width:300px;aspect-ratio:4/3;border-radius:12px;overflow:hidden;pointer-events:none;opacity:0;z-index:50;transform:translate(-50%,-50%) scale(.85);transition:opacity .35s var(--ease),transform .45s var(--ease);background:linear-gradient(135deg,#3a4029,#23271a);box-shadow:0 30px 60px rgba(0,0,0,.3)}
 .proj__preview.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
 .proj__preview img{width:100%;height:100%;object-fit:cover;position:relative;z-index:2}
-@media (hover:none){.proj{grid-template-columns:auto 1fr auto}}
+@media (hover:none){.proj{grid-template-columns:auto 1fr}}
 /* ============================== EXPERIENCE ============================== */
 .exp{background:var(--olive);color:var(--paper)}
 .exp .shead h2{color:var(--paper)}.exp .shead .num{color:var(--paper-soft)}
