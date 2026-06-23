@@ -1087,6 +1087,14 @@ window.addEventListener('load', () => {
     if(typeof lenis!=='undefined' && lenis && lenis.on) lenis.on('scroll', update);
   })();
 
+  /* ---------- PROJECT LINKS: don't reload the page when no URL is set yet ---------- */
+  [].forEach.call(document.querySelectorAll('a.proj'), function(a){
+    a.addEventListener('click', function(e){
+      var h=a.getAttribute('href');
+      if(!h || h==='#'){ e.preventDefault(); }   /* real links still work once added */
+    });
+  });
+
   if (!hasGSAP){ return; } /* no lib → content already visible */
 
   /* ---------- ENTRANCE ---------- */
