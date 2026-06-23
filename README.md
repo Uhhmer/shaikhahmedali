@@ -3,7 +3,7 @@
 A premium, single-page personal portfolio for **Shaikh Ahmed Ali** — PHP Developer & Content Moderator.
 Hand-built in vanilla HTML, CSS and JavaScript with cinematic, scroll-driven motion.
 
-🔗 **Live site:** _add your GitHub Pages link here once deployed_
+🔗 **Live site:** **[uhhmer.github.io/shaikhahmedali](https://uhhmer.github.io/shaikhahmedali/)**
 
 ---
 
