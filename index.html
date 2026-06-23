@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Shaikh Ahmed Ali — PHP Developer</title>
+<meta name="description" content="Shaikh Ahmed Ali — PHP Developer & Backend Engineer. Building robust backends, clean code, and digital content that scales." />
+
+<!--
+================================================================================
+  EDIT ME  —  everything you need to fill in lives here. Search these tags.
+================================================================================
+  [IMG]  Image slots are empty placeholders. To add a picture, set the <img src="">
+         (drop files in the /images folder, or paste a URL). Each slot is labelled
+         on screen so you know which photo belongs where:
+           - Hero portrait .......... search:  IMG: hero-portrait   (portrait 3:4)
+           - Feature image .......... search:  IMG: feature         (wide 16:10)
+           - Project 1..4 thumbs .... search:  IMG: project-1 (…2,3,4)
+           - Social 1..6 cards ...... search:  IMG: social-1 (…through 6)  (9:16)
+
+  [URL]  Links are intentionally EMPTY (href=""). Paste your real links:
+           - LinkedIn ............... search:  URL: linkedin
+           - GitHub ................. search:  URL: github
+           - Phone / WhatsApp ....... search:  URL: phone
+              (your resume had +91 81143 53560 — paste it in if you want)
+           - Email .................. search:  URL: email
+              (removed for now — re-add it in the channel href + value, and set
+               the EMAIL const in the contact <script> to re-enable Send/Copy)
+         Already wired for you:  CV → SAA.pdf
+================================================================================
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&display=swap" rel="stylesheet" />
+
+<style>
+/* ============================== TOKENS ============================== */
+:root{
+  --cream:#EFEDE3; --cream-2:#E4E1D4;
+  --olive:#23271A; --olive-deep:#1A1D12; --olive-card:#2B3020;
+  --lime:#C6F23E; --lime-deep:#B4E024;
+  --ink:#1A1C13; --ink-soft:#4A4D40;
+  --paper:#E9E7DB; --paper-soft:rgba(233,231,219,.6); --paper-faint:rgba(233,231,219,.14);
+  --font-serif:"Fraunces",Georgia,serif;
+  --font-display:"Anton",Impact,sans-serif;
+  --font-ui:"Archivo",system-ui,sans-serif;
+  --maxw:1440px; --gutter:clamp(20px,5vw,72px);
+  --ease:cubic-bezier(.22,1,.36,1);
+  --z-cursor:9999; --z-nav:900; --z-menu:950; --z-loader:9990;
+}
+/* ============================== RESET ============================== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--font-ui);background:var(--cream);color:var(--ink);line-height:1.5;
+  overflow-x:hidden;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+:focus-visible{outline:3px solid var(--lime-deep);outline-offset:3px;border-radius:4px}
+::selection{background:var(--lime);color:var(--ink)}
+.has-cursor,.has-cursor a,.has-cursor button{cursor:none}
+.has-cursor input,.has-cursor textarea{cursor:text}
+/* ============================== LAYOUT ============================== */
+.wrap{max-width:var(--maxw);margin:0 auto;padding-inline:var(--gutter)}
+section{position:relative}
+.section-pad{padding:clamp(80px,12vw,160px) 0}
+/* ============================== CURSOR ============================== */
+.cursor,.cursor-dot{position:fixed;top:0;left:0;pointer-events:none;z-index:var(--z-cursor);
+  border-radius:50%;mix-blend-mode:difference;will-change:transform}
+.cursor{width:38px;height:38px;border:1.5px solid #fff;transform:translate(-50%,-50%);
+  transition:width .3s var(--ease),height .3s var(--ease),background .3s var(--ease),opacity .3s}
+.cursor-dot{width:6px;height:6px;background:#fff;transform:translate(-50%,-50%)}
+.cursor.is-hover{width:74px;height:74px;background:#fff;border-color:#fff}
+.cursor.is-hover .cursor-label{opacity:1}
+.cursor-label{position:absolute;inset:0;display:grid;place-items:center;color:#000;
+  font-family:var(--font-ui);font-weight:700;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;opacity:0;mix-blend-mode:normal}
+@media (hover:none),(pointer:coarse){.cursor,.cursor-dot{display:none!important}}
+/* ============================== LOADER ============================== */
+.loader{position:fixed;inset:0;z-index:var(--z-loader);background:var(--olive);display:grid;place-items:center;color:var(--paper)}
+.loader__name{font-family:var(--font-display);font-size:clamp(2.4rem,9vw,7rem);line-height:.92;text-transform:uppercase;letter-spacing:.01em;text-align:center}
+.loader__name .ser{font-family:var(--font-serif);font-weight:500;text-transform:none;color:var(--lime)}
+.loader__count{position:absolute;bottom:var(--gutter);right:var(--gutter);font-family:var(--font-display);font-size:clamp(3rem,14vw,9rem);line-height:1;color:var(--paper-faint)}
+.loader__bar{position:absolute;bottom:0;left:0;height:3px;background:var(--lime);width:0%}
+/* ============================== NAV ============================== */
+.nav{position:fixed;top:0;left:0;width:100%;z-index:var(--z-nav);padding:clamp(16px,2.4vw,26px) var(--gutter);
+  display:flex;align-items:flex-start;justify-content:space-between;color:var(--ink);
+  transition:transform .45s var(--ease),color .4s ease;will-change:transform}
+.nav.is-dark{color:var(--cream)}
+.brand{line-height:.82;display:block}
+.brand .b1{font-family:var(--font-serif);font-weight:500;font-size:clamp(1.1rem,2vw,1.5rem);display:block}
+.brand .b2{font-family:var(--font-display);font-size:clamp(1.3rem,2.6vw,2rem);text-transform:uppercase;letter-spacing:.01em;display:block}
+.nav__right{display:flex;gap:10px;align-items:center}
+.pill{display:inline-flex;align-items:center;gap:8px;height:46px;padding:0 18px;border-radius:40px;background:var(--lime);color:#000;mix-blend-mode:normal;
+  font-family:var(--font-ui);font-weight:700;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;transition:transform .3s var(--ease),background .3s}
+.pill:hover{transform:translateY(-2px);background:#fff}
+.pill svg{width:16px;height:16px}
+.menu-btn{width:46px;height:46px;border:1.5px solid currentColor;border-radius:14px;display:grid;place-items:center;background:transparent;color:inherit;transition:background .3s,color .3s,border-color .4s ease}
+.menu-btn:hover{background:var(--ink);color:var(--cream)}
+.nav.is-dark .menu-btn:hover{background:var(--cream);color:var(--ink)}
+.menu-btn span{display:block;width:18px;height:2px;background:currentColor;position:relative}
+.menu-btn span::before,.menu-btn span::after{content:"";position:absolute;left:0;width:18px;height:2px;background:currentColor}
+.menu-btn span::before{top:-5px}.menu-btn span::after{top:5px}
+.menu{position:fixed;inset:0;z-index:var(--z-menu);background:var(--olive);color:var(--paper);display:flex;flex-direction:column;justify-content:center;
+  padding:var(--gutter);clip-path:inset(0 0 100% 0);visibility:hidden;transition:clip-path .7s var(--ease),visibility .7s}
+.menu.open{clip-path:inset(0 0 0 0);visibility:visible}
+.menu__close{position:absolute;top:clamp(16px,2.4vw,26px);right:var(--gutter);width:46px;height:46px;border:1.5px solid var(--paper-faint);border-radius:14px;display:grid;place-items:center;color:var(--paper);font-size:1.4rem;font-family:var(--font-ui)}
+.menu__list{list-style:none;display:flex;flex-direction:column;gap:clamp(2px,1vw,10px)}
+.menu__list a{font-family:var(--font-display);font-size:clamp(2rem,7.5vw,5.4rem);line-height:1.02;text-transform:uppercase;display:inline-flex;align-items:baseline;gap:18px;color:var(--paper);transition:color .3s,padding-left .4s var(--ease)}
+.menu__list a .idx{font-family:var(--font-ui);font-size:.8rem;color:var(--lime);font-weight:700}
+.menu__list a:hover{color:var(--lime);padding-left:18px}
+.menu__foot{margin-top:clamp(20px,4vw,46px);display:flex;flex-wrap:wrap;gap:24px;font-size:.85rem;color:var(--paper-soft)}
+.menu__foot a:hover{color:var(--lime)}
+/* ============================== HERO ============================== */
+.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding-top:120px;padding-bottom:60px;overflow:hidden}
+.hero__topo{position:absolute;inset:-10% -5%;z-index:0;color:rgba(26,28,19,.10);pointer-events:none}
+.hero__topo svg{width:100%;height:100%}
+.hero__grid{position:relative;z-index:2;display:grid;grid-template-columns:1.4fr .9fr;gap:clamp(24px,4vw,60px);align-items:center}
+.hero__name{font-family:var(--font-display);text-transform:uppercase;line-height:.84;font-size:clamp(4.2rem,15vw,13rem);letter-spacing:-.01em}
+.hero__name .ser{display:block;font-family:var(--font-serif);font-weight:500;text-transform:none;font-size:clamp(3rem,9vw,8rem);line-height:.9;color:var(--ink)}
+.hero__name .big{display:block;color:var(--ink)}
+.hero__name .reveal{display:inline-block;overflow:hidden;vertical-align:bottom}
+.hero__name .reveal>span{display:inline-block;will-change:transform}
+.hero__role{margin-top:clamp(18px,2.5vw,30px);display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+.hero__role .tag{font-family:var(--font-ui);font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:.8rem}
+.hero__role .dot{width:7px;height:7px;border-radius:50%;background:var(--lime-deep)}
+.hero__lede{margin-top:22px;max-width:46ch;font-size:clamp(1rem,1.4vw,1.18rem);color:var(--ink-soft)}
+.hero__cta{margin-top:28px;display:flex;flex-wrap:wrap;gap:12px}
+.btn-dark{display:inline-flex;align-items:center;gap:9px;height:50px;padding:0 22px;border-radius:40px;background:var(--olive);color:var(--cream);
+  font-weight:700;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;transition:transform .3s var(--ease),background .3s}
+.btn-dark:hover{transform:translateY(-2px);background:var(--olive-deep)}
+.btn-line{display:inline-flex;align-items:center;gap:9px;height:50px;padding:0 22px;border-radius:40px;border:1.5px solid rgba(26,28,19,.3);
+  font-weight:700;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;transition:transform .3s var(--ease),background .3s,color .3s,border-color .3s}
+.btn-line:hover{transform:translateY(-2px);background:var(--olive);color:var(--cream);border-color:var(--olive)}
+.btn-dark svg,.btn-line svg{width:16px;height:16px}
+.hero__stats{margin-top:34px;display:flex;flex-wrap:wrap;gap:28px}
+.hero__stats .st b{font-family:var(--font-display);font-size:clamp(1.8rem,4vw,2.6rem);display:block;line-height:1}
+.hero__stats .st span{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:700}
+.portrait{position:relative;aspect-ratio:3/4;border-radius:18px;overflow:hidden;background:linear-gradient(135deg,var(--olive),var(--olive-card))}
+.portrait img{width:100%;height:100%;object-fit:cover;position:relative;z-index:2}
+.slot-label{position:absolute;inset:0;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;color:var(--paper-soft);font-family:var(--font-ui);padding:18px}
+.slot-label .ic{width:34px;height:34px;opacity:.7}
+.slot-label .lab{font-weight:700;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase}
+.slot-label .hint{font-size:.7rem;opacity:.7;letter-spacing:.04em}
+.info-card{position:absolute;left:var(--gutter);bottom:clamp(20px,4vh,46px);z-index:3;border:1.5px solid rgba(26,28,19,.2);border-radius:16px;padding:14px 18px;max-width:240px;background:rgba(239,237,227,.5);backdrop-filter:blur(6px)}
+.info-card .k{font-weight:700;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft)}
+.info-card .v{font-family:var(--font-serif);font-size:1.05rem;margin-top:4px}
+.info-card .s{font-size:.78rem;color:var(--ink-soft);margin-top:2px}
+.scroll-cue{position:absolute;right:var(--gutter);bottom:clamp(20px,4vh,46px);z-index:3;display:flex;align-items:center;gap:10px;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:var(--ink-soft)}
+.scroll-cue .line{width:46px;height:1px;background:var(--ink-soft);position:relative;overflow:hidden}
+.scroll-cue .line::after{content:"";position:absolute;inset:0;background:var(--lime-deep);transform:translateX(-100%);animation:cue 1.8s var(--ease) infinite}
+@keyframes cue{0%{transform:translateX(-100%)}60%,100%{transform:translateX(100%)}}
+/* ============================== STRIP ============================== */
+.strip{background:var(--olive);color:var(--paper);padding:clamp(14px,2vw,22px) 0;overflow:hidden;border-block:1px solid var(--olive-deep)}
+.marquee{display:flex;gap:0;white-space:nowrap;will-change:transform}
+.marquee span{font-family:var(--font-display);text-transform:uppercase;font-size:clamp(1.6rem,3.6vw,3rem);padding-inline:.4em;display:inline-flex;align-items:center;gap:.4em}
+.marquee .star{color:var(--lime);font-size:.7em}
+/* ============================== MANIFESTO ============================== */
+.manifesto{background:var(--olive);color:var(--paper);padding:clamp(80px,14vw,180px) 0}
+.manifesto__mark{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:clamp(40px,7vw,90px)}
+.manifesto__mark .sym{width:54px;height:54px;color:var(--paper-soft)}
+.manifesto__mark .cap{font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--paper-soft);font-weight:700}
+.manifesto__text{font-family:var(--font-display);text-transform:uppercase;font-size:clamp(2.2rem,7vw,6rem);line-height:.98;letter-spacing:-.005em}
+.manifesto__text .w{display:inline-block;overflow:hidden;vertical-align:bottom}
+.manifesto__text .w>span{display:inline-block;will-change:transform}
+.manifesto__text em{font-family:var(--font-serif);font-style:italic;font-weight:500;text-transform:none;color:var(--lime)}
+/* ============================== FEATURE ============================== */
+.feature{color:var(--paper);position:relative;padding:0}
+.feature__track{position:relative;height:220vh}
+.feature__sticky{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden}
+.feature__bg{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;z-index:0;pointer-events:none;opacity:.5}
+.feature__bg .row{font-family:var(--font-display);text-transform:uppercase;white-space:nowrap;font-size:clamp(3rem,11vw,10rem);line-height:.92;color:transparent;-webkit-text-stroke:1px var(--paper-faint);will-change:transform}
+.feature__bg .row.alt{color:var(--lime);-webkit-text-stroke:0;opacity:.16}
+.feature__media{position:relative;z-index:2;width:min(1180px,94vw);aspect-ratio:16/10;border-radius:16px;overflow:hidden;background:linear-gradient(135deg,#3a4029,#23271a);transform-origin:center;box-shadow:0 50px 120px rgba(0,0,0,.45);will-change:transform}
+.feature__media img{width:100%;height:100%;object-fit:cover;position:relative;z-index:2}
+.feature__sign{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;align-items:flex-end;justify-content:flex-end;gap:2px;padding:clamp(18px,3.5vw,44px) clamp(22px,4vw,54px);opacity:1;transition:opacity .6s ease;pointer-events:none}
+.feature__sign::before{content:"";position:absolute;inset:0;background:radial-gradient(46% 50% at 82% 86%, rgba(0,0,0,.4), rgba(0,0,0,0) 72%)}
+.feature__signed{position:relative;align-self:flex-end;font-family:var(--font-ui);font-weight:700;font-size:clamp(.5rem,.9vw,.66rem);letter-spacing:.26em;text-transform:uppercase;color:var(--lime)}
+.feature__sign .sign__svg{position:relative;align-self:flex-end;width:min(31%,285px);height:auto;overflow:visible;transform:rotate(-3deg);margin:0 0 0 auto}
+.feature__sign .sign__svg path{fill:var(--lime);stroke:var(--lime);stroke-width:10;stroke-linecap:round;stroke-linejoin:round}
+/* ============================== SIGNATURE ============================== */
+.sign{background:var(--olive);color:var(--paper);padding:0 0 clamp(80px,14vw,160px);text-align:center}
+.sign__cap{font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--paper-soft);font-weight:700;margin-bottom:18px}
+.sign__mark{display:inline-flex;flex-direction:column;align-items:center}
+.sign__svg{width:min(760px,92vw);height:auto;overflow:visible;display:block;margin:0 auto;transform:rotate(-3deg);transition:transform .5s var(--ease);will-change:transform}
+.sign__mark:hover .sign__svg{transform:rotate(-3deg) scale(1.03)}
+.sign__svg path{fill:var(--lime);stroke:var(--lime);stroke-width:8px;stroke-linecap:round;stroke-linejoin:round}
+/* ============================== SECTION HEAD ============================== */
+.shead{display:flex;align-items:baseline;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:clamp(34px,5vw,64px)}
+.shead h2{font-family:var(--font-display);text-transform:uppercase;line-height:.9;font-size:clamp(2.6rem,8vw,6.5rem);letter-spacing:-.01em}
+.shead h2 em{font-family:var(--font-serif);font-style:italic;font-weight:500;text-transform:none;color:var(--lime-deep)}
+.shead .num{font-family:var(--font-ui);font-weight:700;font-size:.8rem;letter-spacing:.2em;color:var(--ink-soft)}
+/* ============================== ABOUT ============================== */
+.about{background:var(--cream)}
+.about__grid{display:grid;grid-template-columns:1.3fr .9fr;gap:clamp(24px,4vw,60px);align-items:start}
+.about__lead{font-family:var(--font-serif);font-size:clamp(1.5rem,3vw,2.4rem);line-height:1.25}
+.about__lead b{color:var(--lime-deep);font-weight:600}
+.about__body{margin-top:22px;color:var(--ink-soft);font-size:1.02rem;line-height:1.75;max-width:60ch}
+.about__body p+p{margin-top:14px}
+.about__facts{display:grid;gap:12px}
+.fact{border:1.5px solid rgba(26,28,19,.16);border-radius:16px;padding:18px 20px;transition:border-color .3s,background .3s,transform .3s var(--ease)}
+.fact:hover{border-color:var(--olive);background:var(--cream-2);transform:translateY(-3px)}
+.fact .k{font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);font-weight:700}
+.fact .v{font-family:var(--font-serif);font-size:1.15rem;margin-top:6px}
+.fact .tags{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px}
+.fact .tags span{font-size:.7rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;border:1px solid rgba(26,28,19,.2);border-radius:30px;padding:4px 10px}
+/* ============================== WORK ============================== */
+.work{background:var(--cream)}
+.work__list{display:grid;gap:clamp(10px,1.4vw,18px)}
+.proj{position:relative;display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:center;padding:clamp(20px,3vw,38px) 4px;border-top:1.5px solid rgba(26,28,19,.16);transition:padding-left .4s var(--ease)}
+.proj:last-child{border-bottom:1.5px solid rgba(26,28,19,.16)}
+.proj:hover{padding-left:18px}
+.proj__idx{font-family:var(--font-ui);font-weight:700;font-size:.8rem;color:var(--ink-soft)}
+.proj__title{display:block;font-family:var(--font-display);text-transform:uppercase;font-size:clamp(1.8rem,5vw,3.4rem);line-height:.95}
+.proj__meta{font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;margin-top:6px}
+.proj__arrow{width:46px;height:46px;border-radius:50%;border:1.5px solid rgba(26,28,19,.25);display:grid;place-items:center;transition:background .3s,transform .3s var(--ease),border-color .3s}
+.proj:hover .proj__arrow{background:var(--lime);transform:rotate(-45deg);border-color:var(--lime)}
+.proj__arrow svg{width:18px;height:18px}
+.proj__preview{position:fixed;top:0;left:0;width:300px;aspect-ratio:4/3;border-radius:12px;overflow:hidden;pointer-events:none;opacity:0;z-index:50;transform:translate(-50%,-50%) scale(.85);transition:opacity .35s var(--ease),transform .45s var(--ease);background:linear-gradient(135deg,#3a4029,#23271a);box-shadow:0 30px 60px rgba(0,0,0,.3)}
+.proj__preview.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.proj__preview img{width:100%;height:100%;object-fit:cover;position:relative;z-index:2}
+@media (hover:none){.proj{grid-template-columns:auto 1fr auto}}
+/* ============================== EXPERIENCE ============================== */
+.exp{background:var(--olive);color:var(--paper)}
+.exp .shead h2{color:var(--paper)}.exp .shead .num{color:var(--paper-soft)}
+.exp__list{display:grid;gap:18px}
+.exp__card{border:1.5px solid var(--paper-faint);border-radius:18px;padding:clamp(22px,3vw,40px);display:grid;gap:16px;transition:border-color .3s,background .3s}
+.exp__card:hover{border-color:var(--lime);background:rgba(198,242,62,.04)}
+.exp__top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:14px;align-items:baseline}
+.exp__role{font-family:var(--font-serif);font-size:clamp(1.5rem,3.2vw,2.4rem);line-height:1.05}
+.exp__role b{color:var(--lime);font-weight:600}
+.exp__when{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--paper-soft);text-align:right;white-space:nowrap}
+.exp__sub{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:.82rem;color:var(--paper-soft);font-weight:600;letter-spacing:.04em}
+.exp__sub .pin{display:inline-flex;align-items:center;gap:6px}
+.exp__sub svg{width:14px;height:14px;opacity:.8}
+.exp__desc{color:var(--paper-soft);font-size:.97rem;max-width:74ch;line-height:1.65}
+.exp__tags{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--paper-faint);border-radius:40px;padding:6px 14px;font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--paper-soft)}
+/* ============================== SKILLS ============================== */
+.skills{background:var(--cream)}
+.skill-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(14px,2vw,24px)}
+.skill-col{border-top:2px solid var(--ink);padding-top:18px}
+.skill-col h3{font-family:var(--font-display);text-transform:uppercase;font-size:1.4rem;margin-bottom:14px;line-height:1}
+.skill-col h3 span{color:var(--ink-soft);font-family:var(--font-ui);font-size:.7rem;font-weight:700;letter-spacing:.16em;display:block;margin-top:6px}
+.skill-tags{display:flex;flex-wrap:wrap;gap:8px}
+.skill{border:1.5px solid rgba(26,28,19,.18);border-radius:40px;padding:8px 15px;font-size:.82rem;font-weight:600;letter-spacing:.02em;transition:background .25s,color .25s,border-color .25s,transform .25s var(--ease)}
+.skill:hover{background:var(--olive);color:var(--lime);border-color:var(--olive);transform:translateY(-2px)}
+/* ============================== TIMELINE ============================== */
+.edu{background:var(--olive);color:var(--paper)}
+.edu .shead h2{color:var(--paper)}.edu .shead .num{color:var(--paper-soft)}
+.timeline{display:grid;gap:0}
+.tl{position:relative;display:grid;grid-template-columns:190px 1fr;gap:clamp(18px,4vw,60px);padding:clamp(24px,4vw,48px) 0;border-top:1.5px solid var(--paper-faint)}
+.tl:last-child{border-bottom:1.5px solid var(--paper-faint)}
+.tl__year{font-family:var(--font-display);font-size:clamp(1.4rem,3vw,2.2rem);color:var(--lime);line-height:1}
+.tl__year span{display:block;font-family:var(--font-ui);font-size:.72rem;font-weight:700;letter-spacing:.14em;color:var(--paper-soft);margin-top:6px;text-transform:uppercase}
+.tl__body h3{font-family:var(--font-serif);font-size:clamp(1.3rem,2.6vw,2rem);line-height:1.1}
+.tl__body .where{font-size:.85rem;color:var(--paper-soft);font-weight:600;margin-top:6px;letter-spacing:.04em}
+.tl__body .meta{font-size:.92rem;color:var(--paper-soft);margin-top:12px;max-width:60ch;line-height:1.6}
+@media (max-width:640px){.tl{grid-template-columns:1fr;gap:10px}}
+/* ============================== CERTS ============================== */
+.certs{background:var(--cream)}
+.cert-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.cert{display:flex;gap:16px;align-items:center;border:1.5px solid rgba(26,28,19,.16);border-radius:16px;padding:24px;min-height:118px;transition:border-color .3s,background .3s,transform .3s var(--ease)}
+@media (max-width:900px){.cert-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.cert-grid{grid-template-columns:1fr}}
+.cert:hover{border-color:var(--olive);background:var(--cream-2);transform:translateY(-3px)}
+.cert .ic{width:42px;height:42px;border-radius:12px;background:var(--olive);color:var(--lime);display:grid;place-items:center;flex:0 0 auto}
+.cert .ic svg{width:20px;height:20px}
+.cert h3{font-size:1rem;font-weight:700}
+.cert p{font-size:.82rem;color:var(--ink-soft);margin-top:3px}
+/* ============================== SOCIALS ============================== */
+.socials{background:var(--cream);text-align:center;overflow:hidden}
+.socials__head{display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:clamp(8px,1.4vw,18px)}
+.socials__head .sym{width:46px;height:46px;color:var(--ink)}
+.socials__head h2{font-family:var(--font-display);text-transform:uppercase;line-height:.86;font-size:clamp(2.4rem,8vw,6rem)}
+.socials__head h2 em{font-family:var(--font-serif);font-style:normal;font-weight:500;text-transform:none;display:block;color:var(--ink)}
+.fan{display:flex;justify-content:center;align-items:flex-end;min-height:clamp(260px,32vw,430px);position:relative;margin-top:4px}
+.fan__card{width:clamp(120px,15vw,210px);aspect-ratio:9/16;border-radius:20px;overflow:hidden;background:linear-gradient(135deg,var(--olive-card),var(--olive));margin-inline:-2.4vw;position:relative;box-shadow:0 20px 40px rgba(0,0,0,.18);transition:transform .55s cubic-bezier(.22,1,.36,1),box-shadow .4s ease;will-change:transform}
+.fan__card img{width:100%;height:100%;object-fit:cover;position:relative;z-index:2}
+.fan__card:nth-child(1){transform:rotate(-14deg) translateY(40px)}
+.fan__card:nth-child(2){transform:rotate(-8deg) translateY(16px)}
+.fan__card:nth-child(3){transform:rotate(-3deg) translateY(4px)}
+.fan__card:nth-child(4){transform:rotate(3deg) translateY(4px)}
+.fan__card:nth-child(5){transform:rotate(8deg) translateY(16px)}
+.fan__card:nth-child(6){transform:rotate(14deg) translateY(40px)}
+/* socials fan hover is driven by JS (distance-based reactive spread) */
+@media (max-width:760px){
+  .fan{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;scroll-snap-type:x mandatory;padding:10px var(--gutter) 20px;-webkit-overflow-scrolling:touch}
+  .fan__card{margin-inline:6px!important;transform:none!important;flex:0 0 auto;width:min(58vw,240px);scroll-snap-align:center}
+}
+.socials__follow{margin-top:clamp(34px,6vw,64px);text-align:center}
+.socials__cap{font-family:var(--font-serif);font-size:clamp(1.3rem,3vw,2rem)}
+.socials__links{margin-top:18px;display:flex;flex-wrap:wrap;gap:12px 30px;justify-content:center}
+.socials__links a{font-family:var(--font-ui);font-weight:700;font-size:.82rem;letter-spacing:.16em;text-transform:uppercase;position:relative;padding-bottom:5px}
+.socials__links a::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:2px;background:var(--ink);transform:scaleX(0);transform-origin:left;transition:transform .35s var(--ease)}
+.socials__links a:hover::after{transform:scaleX(1)}
+.socials__links a:hover{color:var(--ink)}
+/* ============================== CONTACT ============================== */
+.contact{background:var(--olive);color:var(--paper);padding:clamp(80px,14vw,180px) 0 clamp(40px,6vw,70px)}
+.contact__lead{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--lime);font-weight:700;margin-bottom:18px}
+.contact__big{font-family:var(--font-display);text-transform:uppercase;line-height:.9;font-size:clamp(3rem,12vw,10rem);letter-spacing:-.01em}
+.contact__big em{font-family:var(--font-serif);font-style:italic;font-weight:500;text-transform:none;color:var(--lime)}
+.contact__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:clamp(40px,7vw,80px)}
+.cc{border:1.5px solid var(--paper-faint);border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:10px;transition:border-color .3s,background .3s,transform .3s var(--ease)}
+.cc:hover{border-color:var(--lime);background:rgba(198,242,62,.04);transform:translateY(-3px)}
+.cc .k{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--paper-soft);font-weight:700}
+.cc .v{font-family:var(--font-serif);font-size:1.15rem;word-break:break-word}
+.cc .empty{color:var(--paper-soft);font-style:italic;font-family:var(--font-ui);font-size:.9rem}
+.cc svg{width:20px;height:20px;color:var(--lime)}
+/* contact form (Breedlove-style, static mailto) */
+.contact__cols{display:grid;grid-template-columns:1.1fr .9fr;gap:16px;margin-top:clamp(40px,7vw,80px)}
+@media (max-width:900px){.contact__cols{grid-template-columns:1fr}}
+.cbox{border:1.5px solid var(--paper-faint);border-radius:20px;padding:clamp(22px,3vw,34px);background:rgba(233,231,219,.02)}
+.cbox__head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:22px;flex-wrap:wrap}
+.cbox__title{font-weight:700;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--lime)}
+.cbox__tag{font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;color:var(--paper-soft);font-weight:700}
+.topics{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.topic{border:1.5px solid var(--paper-faint);border-radius:40px;padding:9px 15px;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--paper-soft);transition:background .25s,border-color .25s,color .25s,transform .25s var(--ease)}
+.topic:hover{border-color:var(--paper-soft);color:var(--paper);transform:translateY(-1px)}
+.topic.is-active{background:var(--lime);border-color:var(--lime);color:#000}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field--full{grid-column:1 / -1}
+@media (max-width:520px){.form-grid{grid-template-columns:1fr}}
+.field label{display:block;font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--paper-soft);margin-bottom:8px}
+.field input,.field textarea{width:100%;background:rgba(233,231,219,.06);border:1.5px solid var(--paper-faint);border-radius:12px;padding:13px 14px;color:var(--paper);font:inherit;font-size:.95rem;transition:border-color .25s,background .25s}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--lime);background:rgba(233,231,219,.1)}
+.field input::placeholder,.field textarea::placeholder{color:rgba(233,231,219,.38)}
+.field textarea{resize:vertical;min-height:120px}
+.cbox__actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px;align-items:center}
+.btn-send{display:inline-flex;align-items:center;gap:10px;height:52px;padding:0 26px;border-radius:40px;background:var(--lime);color:#000;font-weight:700;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;transition:transform .3s var(--ease),background .3s}
+.btn-send:hover{transform:translateY(-2px);background:#fff}
+.btn-send svg{width:16px;height:16px}
+.btn-ghost{display:inline-flex;align-items:center;height:52px;padding:0 22px;border-radius:40px;border:1.5px solid var(--paper-faint);color:var(--paper);font-weight:700;font-size:.76rem;letter-spacing:.08em;text-transform:uppercase;transition:border-color .3s,color .3s}
+.btn-ghost:hover{border-color:var(--lime);color:var(--lime)}
+.cbox__hint{margin-top:16px;font-size:.78rem;color:var(--paper-soft);line-height:1.5}
+.cbox--info{display:flex;flex-direction:column}
+.chans{display:flex;flex-direction:column;gap:10px;flex:1;margin-top:6px}
+.chan{display:grid;grid-template-columns:84px 1fr auto;gap:14px;align-items:center;align-content:center;
+  border:1.5px solid var(--paper-faint);border-radius:14px;padding:16px 18px;flex:1;min-height:66px;
+  transition:border-color .3s,background .3s,transform .3s var(--ease)}
+.chan:hover{border-color:var(--lime);background:rgba(198,242,62,.05);transform:translateY(-2px)}
+.chan__k{font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--paper-soft)}
+.chan__v{font-family:var(--font-serif);font-size:1.05rem;word-break:break-word}
+.chan__v.empty{font-family:var(--font-ui);font-style:italic;font-size:.9rem;color:var(--paper-soft)}
+.chan svg{width:18px;height:18px;color:var(--lime);transition:transform .3s var(--ease)}
+.chan:hover svg{transform:translate(3px,-3px)}
+.cbox__foot{display:flex;align-items:center;gap:10px;margin-top:14px;padding-top:16px;border-top:1.5px solid var(--paper-faint);font-size:.78rem;color:var(--paper-soft);font-weight:600}
+.cbox__foot .live{position:relative;display:inline-flex;width:9px;height:9px;flex:0 0 auto}
+.cbox__foot .live::before,.cbox__foot .live::after{content:"";position:absolute;inset:0;border-radius:50%;background:var(--lime)}
+.cbox__foot .live::after{animation:ping 1.8s var(--ease) infinite}
+@keyframes ping{0%{transform:scale(1);opacity:.7}70%,100%{transform:scale(2.6);opacity:0}}
+@media (max-width:420px){.chan{grid-template-columns:1fr auto;gap:4px 10px}.chan__k{grid-column:1 / -1}}
+/* ============================== FOOTER ============================== */
+.footer{background:var(--olive-deep);color:var(--paper-soft);padding:40px 0;font-size:.8rem}
+.footer__row{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center}
+.footer a:hover{color:var(--lime)}
+.to-top{display:inline-flex;align-items:center;gap:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.to-top svg{width:14px;height:14px}
+/* ============================== REDUCED MOTION ============================== */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+  .scroll-cue .line::after{display:none}
+}
+/* ============================== RESPONSIVE ============================== */
+@media (max-width:1024px){.hero__grid{grid-template-columns:1fr}.portrait{max-width:420px;margin-top:10px}.about__grid{grid-template-columns:1fr}}
+@media (max-width:640px){
+  .pill{height:42px}.menu-btn{width:42px;height:42px}
+  .exp__when{text-align:left}
+  .proj{grid-template-columns:auto 1fr;gap:14px}.proj__arrow{display:none}
+  .info-card{position:static;margin-top:24px;max-width:none}
+  .scroll-cue{display:none}
+}
+
+/* ===================== ELEVATED / "EXPENSIVE" BACKGROUNDS ===================== */
+/* subtle depth on dark sections — soft top light + faint lime corner glow (not flat) */
+.manifesto,.feature,.exp,.edu,.contact{
+  background:
+    radial-gradient(140% 100% at 50% -14%, rgba(233,231,219,.06), rgba(233,231,219,0) 56%),
+    radial-gradient(72% 58% at 103% 103%, rgba(198,242,62,.055), rgba(198,242,62,0) 60%),
+    var(--olive);
+}
+.sign{background:radial-gradient(90% 72% at 50% 120%, rgba(198,242,62,.07), transparent 62%), var(--olive)}
+/* warm depth on light sections — faint vignette + cream->cream2 wash */
+.about,.work,.skills,.certs,.socials{
+  background:
+    radial-gradient(120% 78% at 50% -6%, rgba(35,39,26,.045), transparent 56%),
+    linear-gradient(180deg, var(--cream) 0%, var(--cream-2) 100%);
+}
+/* hairline separators between alternating sections for editorial precision */
+.about,.exp,.skills,.edu,.certs,.socials,.contact{border-top:1px solid rgba(35,39,26,.08)}
+.exp,.edu,.contact{border-top-color:rgba(233,231,219,.07)}
+/* ============================== STORY SCROLL (stacked panels) ============================== */
+/* Inactive by default (mobile / reduced-motion / no-JS): plain stacked sections, full content, normal scroll */
+#story-scroll.is-active{position:relative;height:100vh;overflow:hidden}
+#story-scroll.is-active > section{
+  position:absolute;left:0;top:0;width:100%;height:100vh;
+  overflow:hidden;
+  transform-origin:0% 100%;
+  backface-visibility:hidden;
+  padding:0;                         /* panel padding handled by the inner block */
+  border-top:0;
+}
+#story-scroll.is-active > section > .scene-inner{
+  padding:clamp(86px,11vh,128px) 0 clamp(40px,6vh,72px);
+  will-change:transform;
+}
+/* film grain — tactile, premium, barely-there */
+body::after{content:"";position:fixed;inset:0;z-index:3;pointer-events:none;opacity:.05;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:140px 140px}
+@media (prefers-reduced-motion:reduce){body::after{opacity:.04}}
+/* handcrafted 3D image tilt (set by JS) */
+.portrait img,.feature__media img{transition:transform .45s var(--ease);will-change:transform;backface-visibility:hidden}
+/* ===================== LETTER ROLL (skill chips + social links) ===================== */
+.casc-host .casc-line{display:inline-block;overflow:hidden;line-height:1;vertical-align:bottom;padding:.42em 0 .34em}
+.casc-host .casc-g{display:inline-block;line-height:1;font:inherit;color:inherit;transform:translateY(0);text-shadow:0 1.5em currentColor;transition:transform .5s cubic-bezier(.22,1,.36,1);will-change:transform}
+.casc-host.casc-on .casc-g{transform:translateY(-1.5em)}
+@media (prefers-reduced-motion:reduce){.casc-host .casc-g{transition:none}.casc-host.casc-on .casc-g{transform:none}}
+</style>
+</head>
+<body>
+
+<!-- ===================== CUSTOM CURSOR ===================== -->
+<div class="cursor" aria-hidden="true"><span class="cursor-label">View</span></div>
+<div class="cursor-dot" aria-hidden="true"></div>
+
+<!-- ===================== LOADER ===================== -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader__name"><span class="ser">Shaikh</span> Ahmed Ali</div>
+  <div class="loader__count" id="count">0</div>
+  <div class="loader__bar" id="bar"></div>
+</div>
+<!-- Failsafe: never trap a visitor on the loader if a CDN/script is slow or blocked. -->
+<script>
+(function(){
+  function kill(){var l=document.getElementById('loader');if(l){l.style.transition='opacity .5s';l.style.opacity='0';setTimeout(function(){if(l&&l.parentNode)l.remove();},500);}}
+  window.__killLoader=kill;
+  setTimeout(function(){if(!window.__loaderHandled)kill();},4500);
+})();
+</script>
+
+<!-- ===================== NAV ===================== -->
+<header class="nav">
+  <a href="#top" class="brand" data-cursor="Home" aria-label="Shaikh Ahmed Ali — home">
+    <span class="b1">Shaikh</span><span class="b2">Ahmed Ali</span>
+  </a>
+  <div class="nav__right">
+    <a class="pill" href="#contact" data-cursor="Hire">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg>
+      Let's talk
+    </a>
+    <button class="menu-btn" id="menuOpen" aria-label="Open menu" data-cursor="Menu"><span></span></button>
+  </div>
+</header>
+
+<!-- ===================== FULLSCREEN MENU ===================== -->
+<nav class="menu" id="menu" aria-hidden="true">
+  <button class="menu__close" id="menuClose" aria-label="Close menu">✕</button>
+  <ul class="menu__list">
+    <li><a href="#about"><span class="idx">01</span> About</a></li>
+    <li><a href="#work"><span class="idx">02</span> Projects</a></li>
+    <li><a href="#experience"><span class="idx">03</span> Experience</a></li>
+    <li><a href="#skills"><span class="idx">04</span> Skills</a></li>
+    <li><a href="#education"><span class="idx">05</span> Education</a></li>
+    <li><a href="#socials"><span class="idx">06</span> Socials</a></li>
+    <li><a href="#contact"><span class="idx">07</span> Contact</a></li>
+  </ul>
+  <div class="menu__foot">
+    <a href="https://www.instagram.com/ehhhmedali?igsh=M3ZzdXRjOHd3OWR5" target="_blank" rel="noopener">Instagram ↗</a>
+    <a href="https://www.facebook.com/share/18aLRF1msv/" target="_blank" rel="noopener">Facebook ↗</a>
+    <a href="https://www.linkedin.com/in/shaikhahmedali" target="_blank" rel="noopener">LinkedIn ↗</a>
+  </div>
+</nav>
+
+<main id="top">
+
+<!-- ===================== HERO ===================== -->
+<section class="hero" id="hero">
+  <div class="hero__topo" aria-hidden="true" data-parallax="0.12">
+    <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M-50 200 C 250 120 420 320 640 280 S 1080 120 1500 260"/>
+      <path d="M-50 320 C 250 240 420 440 640 400 S 1080 240 1500 380"/>
+      <path d="M-50 460 C 300 380 520 560 760 520 S 1160 360 1520 500"/>
+      <path d="M-50 600 C 280 540 500 700 740 660 S 1180 520 1520 640"/>
+      <path d="M-50 740 C 300 700 520 840 760 800 S 1160 660 1520 780"/>
+      <ellipse cx="300" cy="250" rx="180" ry="120"/><ellipse cx="1100" cy="600" rx="240" ry="150"/>
+    </svg>
+  </div>
+  <div class="wrap hero__grid">
+    <div>
+      <h1 class="hero__name">
+        <span class="ser reveal" data-hero><span>Shaikh</span></span>
+        <span class="big reveal" data-hero><span>Ahmed</span></span>
+        <span class="big reveal" data-hero><span>Ali</span></span>
+      </h1>
+      <div class="hero__role" data-fade>
+        <span class="dot"></span><span class="tag">PHP Developer</span>
+        <span class="dot"></span><span class="tag">Content Moderator</span>
+        <span class="dot"></span><span class="tag">MCA Graduate</span>
+      </div>
+      <p class="hero__lede" data-fade>I build the engine room of the web — clean, secure backends with PHP &amp; Laravel — and shape digital content that scales to a global audience.</p>
+      <div class="hero__cta" data-fade>
+        <a class="btn-dark" href="#work" data-cursor="View">View my work
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+        <!-- CV is wired to your resume file SAA.pdf -->
+        <a class="btn-line" href="SAA.pdf" download data-cursor="Save">Download CV
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/></svg></a>
+      </div>
+      <div class="hero__stats" data-fade>
+        <div class="st"><b>8.54</b><span>MCA GPA</span></div>
+        <div class="st"><b>4+</b><span>Roles &amp; internships</span></div>
+        <div class="st"><b>5</b><span>Certifications</span></div>
+      </div>
+    </div>
+
+    <!-- IMG: hero-portrait — set src to your photo (portrait 3:4) -->
+    <figure class="portrait" data-parallax="-0.06" data-cursor="">
+      <div class="slot-label">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg>
+        <span class="lab">Hero Portrait</span><span class="hint">set img src — portrait 3:4</span>
+      </div>
+      <img alt="Shaikh Ahmed Ali" src="images/hero-portrait.jpg" onerror="this.style.display='none'" />
+    </figure>
+  </div>
+  <div class="scroll-cue" aria-hidden="true"><span class="line"></span> Scroll</div>
+</section>
+
+<!-- ===================== STRIP ===================== -->
+<div class="strip" aria-hidden="true">
+  <div class="marquee" data-marquee="1">
+    <span>PHP <i class="star">✦</i></span><span>Laravel <i class="star">✦</i></span><span>Backend <i class="star">✦</i></span><span>APIs <i class="star">✦</i></span><span>MySQL <i class="star">✦</i></span><span>Clean Code <i class="star">✦</i></span>
+    <span>PHP <i class="star">✦</i></span><span>Laravel <i class="star">✦</i></span><span>Backend <i class="star">✦</i></span><span>APIs <i class="star">✦</i></span><span>MySQL <i class="star">✦</i></span><span>Clean Code <i class="star">✦</i></span>
+  </div>
+</div>
+
+<!-- ===================== MANIFESTO ===================== -->
+<section class="manifesto">
+  <div class="wrap">
+    <div class="manifesto__mark" data-fade>
+      <svg class="sym" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="m8 6-6 6 6 6"/><path d="m16 6 6 6-6 6"/></svg>
+      <span class="cap">The Philosophy</span>
+    </div>
+    <p class="manifesto__text" data-words>Building <em>robust</em> backends, writing <em>clean code</em>, and shaping digital content that <em>scales</em> to millions of users.</p>
+  </div>
+</section>
+
+<!-- ===================== FEATURE (scroll-expand + autograph overlay) ===================== -->
+<section class="feature" id="feature">
+  <div class="feature__track">
+    <div class="feature__sticky">
+      <div class="feature__bg" aria-hidden="true">
+        <div class="row" data-marquee="-1">SCALABLE SYSTEMS · SCALABLE SYSTEMS · SCALABLE SYSTEMS ·</div>
+        <div class="row alt" data-marquee="1">SECURE BY DESIGN · SECURE BY DESIGN · SECURE BY DESIGN ·</div>
+        <div class="row" data-marquee="-1">SHIP FAST · SHIP FAST · SHIP FAST · SHIP FAST · SHIP FAST ·</div>
+      </div>
+      <!-- IMG: feature — set src to a wide image (16:10) -->
+      <figure class="feature__media" data-cursor="">
+        <div class="slot-label">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg>
+          <span class="lab">Feature Image</span><span class="hint">set img src — wide 16:10</span>
+        </div>
+        <img alt="" src="images/feature.jpg" onerror="this.style.display='none'" />
+        <!-- autograph overlay: draws once the image is fully expanded -->
+        <figcaption class="feature__sign" role="img" aria-label="Shaikh Ahmed Ali signature">
+          <span class="feature__signed">Signed,</span>
+          <svg class="sign__svg" viewBox="0 0 6024 1252" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+            <path id="sigPath" d="M413 943Q315 943 233.5 914.0Q152 885 102.0 828.5Q52 772 47 689Q45 655 58.0 614.0Q71 573 94.5 532.5Q118 492 150.5 459.5Q183 427 220 410Q223 408 229.5 407.0Q236 406 239 406Q245 406 245 409Q245 414 230 425Q188 458 161 501Q133 544 119.0 593.0Q105 642 105 692Q105 751 130.5 793.5Q156 836 199.0 863.5Q242 891 297.0 904.0Q352 917 412 917Q479 917 544.5 902.0Q610 887 664 859Q747 815 795.5 750.0Q844 685 844 621Q844 587 829.5 556.0Q815 525 783 500Q759 481 724.5 464.0Q690 447 651.5 431.0Q613 415 576.0 398.5Q539 382 511 363Q471 336 452.5 305.0Q434 274 434 243Q434 206 455.5 171.0Q477 136 514.5 107.5Q552 79 599 63Q640 49 688.5 41.0Q737 33 784 33Q823 33 858.5 38.5Q894 44 921 58Q955 74 973.0 100.5Q991 127 991 156Q991 196 955 226Q942 236 926.0 244.5Q910 253 888 259Q884 260 879 260Q867 260 867 253Q867 249 873.5 244.5Q880 240 893 239Q923 235 938.5 216.0Q954 197 954 172Q954 146 936.5 120.5Q919 95 883.0 77.5Q847 60 791 60Q759 60 720.5 67.0Q682 74 637 90Q582 109 545.5 146.0Q509 183 509 225Q509 251 526.5 277.5Q544 304 583 328Q616 348 658.0 367.5Q700 387 743.0 406.5Q786 426 821 448Q876 482 900.0 521.0Q924 560 924 601Q924 649 895.5 697.5Q867 746 821.0 788.5Q775 831 720 864Q656 902 575.5 922.5Q495 943 413 943ZM888 859Q930 773 975.5 678.5Q1021 584 1069.0 488.0Q1117 392 1164 305Q1181 275 1195.5 258.0Q1210 241 1234 241Q1243 241 1255.0 244.0Q1267 247 1278 245Q1265 259 1242.5 294.0Q1220 329 1192.5 378.0Q1165 427 1134.5 483.5Q1104 540 1074.5 597.5Q1045 655 1020 705Q1040 679 1061.0 656.0Q1082 633 1102 616Q1124 596 1157.5 574.0Q1191 552 1224.5 536.0Q1258 520 1278 520Q1285 520 1288 521Q1288 521 1277.0 541.0Q1266 561 1249.5 592.0Q1233 623 1215.5 659.0Q1198 695 1185.0 727.5Q1172 760 1168 781Q1165 797 1165 808Q1165 824 1171.0 829.5Q1177 835 1184 835Q1201 835 1220.5 817.5Q1240 800 1259.0 773.0Q1278 746 1294.5 715.5Q1311 685 1321 658Q1333 658 1333 667Q1322 694 1305.5 726.5Q1289 759 1268.0 788.0Q1247 817 1222.0 836.0Q1197 855 1169 855Q1149 855 1128.0 841.0Q1107 827 1107 790Q1107 779 1109.0 766.5Q1111 754 1116 738Q1122 718 1136.0 693.5Q1150 669 1172 632Q1182 615 1182 605Q1182 593 1170 593Q1160 593 1143.0 603.0Q1126 613 1100 638Q1075 662 1038.0 708.0Q1001 754 959 837Q952 850 943.5 850.5Q935 851 921 852Q912 853 903.0 853.5Q894 854 888 859ZM1538 854Q1515 854 1497.5 841.0Q1480 828 1480 788Q1480 771 1482.5 756.0Q1485 741 1489 724Q1480 739 1464.0 761.0Q1448 783 1428.5 804.0Q1409 825 1388.5 839.0Q1368 853 1350 853Q1324 853 1308.0 829.5Q1292 806 1292 768Q1292 727 1311.0 680.0Q1330 633 1363.0 590.0Q1396 547 1439.0 520.0Q1482 493 1529 493Q1552 493 1573.0 500.5Q1594 508 1610 525Q1617 532 1617 541Q1617 547 1612.0 551.0Q1607 555 1599 553Q1588 518 1552 518Q1535 518 1513 529Q1486 543 1455.5 573.5Q1425 604 1398.5 642.5Q1372 681 1355.0 720.0Q1338 759 1338 791Q1338 824 1363 824Q1385 824 1408.5 803.0Q1432 782 1453.5 750.5Q1475 719 1493.0 688.0Q1511 657 1521 638Q1536 611 1549.0 593.0Q1562 575 1586 575Q1597 575 1608.0 578.0Q1619 581 1631 579Q1601 609 1578.5 650.0Q1556 691 1544.0 730.5Q1532 770 1532 797Q1532 827 1552 827Q1568 827 1586.5 809.0Q1605 791 1622.5 763.5Q1640 736 1655.0 707.5Q1670 679 1679 658Q1684 658 1687.5 659.0Q1691 660 1691 667Q1690 671 1687.5 675.5Q1685 680 1680 691Q1672 707 1658.0 734.0Q1644 761 1625.0 788.5Q1606 816 1584.0 835.0Q1562 854 1538 854ZM1707 851Q1670 851 1655.0 829.5Q1640 808 1640 780Q1640 765 1643.5 749.5Q1647 734 1652 721L1719 550Q1722 542 1722 536Q1722 526 1717.0 518.5Q1712 511 1710 508L1765 506Q1780 505 1786.5 509.5Q1793 514 1793 520Q1793 526 1786 542Q1776 566 1759.0 602.0Q1742 638 1725.5 676.0Q1709 714 1697.5 747.0Q1686 780 1686 798Q1686 811 1692.5 820.0Q1699 829 1715 829Q1736 829 1756.5 812.5Q1777 796 1795.0 770.0Q1813 744 1828.5 714.0Q1844 684 1855 658Q1867 658 1867 667Q1857 692 1841.0 724.0Q1825 756 1804.5 784.5Q1784 813 1759.5 832.0Q1735 851 1707 851ZM1796 444Q1783 444 1773.5 434.0Q1764 424 1764 410Q1764 393 1778.0 379.5Q1792 366 1809 366Q1823 366 1833.0 375.0Q1843 384 1843 398Q1843 416 1829.0 430.0Q1815 444 1796 444ZM2029 858Q2001 855 1983.0 836.5Q1965 818 1957.0 793.0Q1949 768 1949 747Q1949 707 1967.0 682.5Q1985 658 2000 657Q2016 658 2039.0 649.5Q2062 641 2079 626Q2108 603 2108 579Q2108 554 2079 554Q2063 554 2038.5 565.0Q2014 576 1982 603Q1942 637 1899 694Q1893 707 1885.0 732.5Q1877 758 1871.5 785.0Q1866 812 1866 831Q1866 846 1871 851H1808Q1797 851 1797 842Q1797 839 1798.0 837.0Q1799 835 1800 829Q1814 777 1833.5 737.0Q1853 697 1866 667Q1857 670 1856.0 665.5Q1855 661 1855 658Q1862 642 1878.5 606.5Q1895 571 1917.5 524.5Q1940 478 1966.0 427.0Q1992 376 2018 329Q2044 281 2060.5 261.0Q2077 241 2101 241Q2110 241 2122.5 244.0Q2135 247 2145 245Q2123 264 2090.0 314.5Q2057 365 2020.0 432.0Q1983 499 1949 569Q1939 589 1930.0 611.0Q1921 633 1913 655Q1934 629 1961.0 601.0Q1988 573 2017.5 549.5Q2047 526 2076 515Q2109 503 2131 503Q2154 503 2164.5 514.0Q2175 525 2175 542Q2175 561 2160.0 587.5Q2145 614 2119 633Q2097 648 2073.0 659.0Q2049 670 2016 673Q2010 687 2007.5 701.5Q2005 716 2005 730Q2005 769 2023.0 798.5Q2041 828 2070 828Q2084 828 2100.5 820.0Q2117 812 2135 793Q2155 773 2175.0 737.5Q2195 702 2215 658Q2227 658 2227 667Q2191 754 2157.0 796.0Q2123 838 2091.5 849.5Q2060 861 2029 858ZM2118 859Q2160 773 2205.5 678.5Q2251 584 2299.0 488.0Q2347 392 2394 305Q2411 275 2425.5 258.0Q2440 241 2464 241Q2473 241 2485.0 244.0Q2497 247 2508 245Q2495 259 2472.5 294.0Q2450 329 2422.5 378.0Q2395 427 2364.5 483.5Q2334 540 2304.5 597.5Q2275 655 2250 705Q2270 679 2291.0 656.0Q2312 633 2332 616Q2354 596 2387.5 574.0Q2421 552 2454.5 536.0Q2488 520 2508 520Q2515 520 2518 521Q2518 521 2507.0 541.0Q2496 561 2479.5 592.0Q2463 623 2445.5 659.0Q2428 695 2415.0 727.5Q2402 760 2398 781Q2395 797 2395 808Q2395 824 2401.0 829.5Q2407 835 2414 835Q2431 835 2450.5 817.5Q2470 800 2489.0 773.0Q2508 746 2524.5 715.5Q2541 685 2551 658Q2563 658 2563 667Q2552 694 2535.5 726.5Q2519 759 2498.0 788.0Q2477 817 2452.0 836.0Q2427 855 2399 855Q2379 855 2358.0 841.0Q2337 827 2337 790Q2337 779 2339.0 766.5Q2341 754 2346 738Q2352 718 2366.0 693.5Q2380 669 2402 632Q2412 615 2412 605Q2412 593 2400 593Q2390 593 2373.0 603.0Q2356 613 2330 638Q2305 662 2268.0 708.0Q2231 754 2189 837Q2182 850 2173.5 850.5Q2165 851 2151 852Q2142 853 2133.0 853.5Q2124 854 2118 859ZM3156 915Q3112 915 3094.0 880.5Q3076 846 3076 800Q3076 759 3087.5 719.0Q3099 679 3115 658Q3088 690 3048.0 731.0Q3008 772 2960.0 810.0Q2912 848 2861.0 873.0Q2810 898 2760 898Q2694 898 2661.5 856.0Q2629 814 2629 741Q2629 684 2648.5 618.5Q2668 553 2706 485Q2724 452 2746.5 419.5Q2769 387 2795 358Q2764 343 2735.0 324.5Q2706 306 2688.0 280.0Q2670 254 2670 218Q2670 199 2678.5 183.5Q2687 168 2697 168Q2706 168 2706 179Q2706 186 2702 194Q2697 207 2697 218Q2697 245 2716.0 268.5Q2735 292 2762.0 309.0Q2789 326 2812 336Q2876 266 2952.5 206.5Q3029 147 3117.0 111.0Q3205 75 3302 75Q3383 75 3429.0 110.5Q3475 146 3475 202Q3475 252 3446.5 287.5Q3418 323 3372.0 346.5Q3326 370 3272.5 383.5Q3219 397 3167.0 402.5Q3115 408 3076 408Q3019 408 2965.5 401.0Q2912 394 2859 379Q2833 416 2802.5 464.5Q2772 513 2744.5 566.5Q2717 620 2699.5 672.5Q2682 725 2682 770Q2682 819 2705.0 843.5Q2728 868 2767 868Q2814 868 2866.5 839.5Q2919 811 2972.0 765.0Q3025 719 3073.0 665.0Q3121 611 3159.0 558.0Q3197 505 3219 464Q3236 432 3252.0 418.5Q3268 405 3279 405Q3290 405 3296.0 413.5Q3302 422 3302 436Q3302 464 3277 492Q3243 531 3211.0 586.5Q3179 642 3159.0 702.5Q3139 763 3139 816Q3139 853 3150.5 869.0Q3162 885 3181 885Q3210 885 3239.5 865.5Q3269 846 3296.0 813.0Q3323 780 3346.0 739.5Q3369 699 3386 658Q3391 658 3394.5 659.0Q3398 660 3398 667Q3381 710 3357.5 754.0Q3334 798 3304.0 834.5Q3274 871 3237.0 893.0Q3200 915 3156 915ZM3067 384Q3107 384 3156.0 379.5Q3205 375 3253.5 363.0Q3302 351 3343.0 329.0Q3384 307 3409.0 273.0Q3434 239 3434 190Q3434 146 3397.5 123.0Q3361 100 3305 100Q3212 100 3135.5 136.5Q3059 173 2995.5 232.0Q2932 291 2875 359Q2919 372 2965.5 378.0Q3012 384 3067 384ZM3289 859Q3331 773 3376.5 678.5Q3422 584 3470.0 488.0Q3518 392 3565 305Q3582 275 3596.5 258.0Q3611 241 3635 241Q3644 241 3656.0 244.0Q3668 247 3679 245Q3666 259 3643.5 294.0Q3621 329 3593.5 378.0Q3566 427 3535.5 483.5Q3505 540 3475.5 597.5Q3446 655 3421 705Q3441 679 3462.0 656.0Q3483 633 3503 616Q3525 596 3558.5 574.0Q3592 552 3625.5 536.0Q3659 520 3679 520Q3686 520 3689 521Q3689 521 3678.0 541.0Q3667 561 3650.5 592.0Q3634 623 3616.5 659.0Q3599 695 3586.0 727.5Q3573 760 3569 781Q3566 797 3566 808Q3566 824 3572.0 829.5Q3578 835 3585 835Q3602 835 3621.5 817.5Q3641 800 3660.0 773.0Q3679 746 3695.5 715.5Q3712 685 3722 658Q3734 658 3734 667Q3723 694 3706.5 726.5Q3690 759 3669.0 788.0Q3648 817 3623.0 836.0Q3598 855 3570 855Q3550 855 3529.0 841.0Q3508 827 3508 790Q3508 779 3510.0 766.5Q3512 754 3517 738Q3523 718 3537.0 693.5Q3551 669 3573 632Q3583 615 3583 605Q3583 593 3571 593Q3561 593 3544.0 603.0Q3527 613 3501 638Q3476 662 3439.0 708.0Q3402 754 3360 837Q3353 850 3344.5 850.5Q3336 851 3322 852Q3313 853 3304.0 853.5Q3295 854 3289 859ZM3625 856Q3662 785 3695.0 713.5Q3728 642 3762 578Q3782 542 3795.5 527.5Q3809 513 3832 513Q3840 513 3849.0 515.5Q3858 518 3867 518Q3873 518 3876 517Q3862 525 3840.0 556.5Q3818 588 3795.0 629.0Q3772 670 3754 706Q3773 683 3793.5 660.0Q3814 637 3839 616Q3861 597 3885.5 574.5Q3910 552 3934.0 536.0Q3958 520 3976 520Q3983 520 3985 521Q4004 529 4004 547Q4004 553 3999 565Q3986 599 3965.5 634.5Q3945 670 3927 706Q3942 688 3964.5 662.0Q3987 636 4010 616Q4032 596 4066.0 574.0Q4100 552 4133.0 536.0Q4166 520 4186 520Q4193 520 4196 521Q4196 521 4185.0 540.5Q4174 560 4157.5 591.5Q4141 623 4124.0 658.5Q4107 694 4093.5 726.5Q4080 759 4076 781Q4073 794 4073 805Q4073 821 4079.0 826.0Q4085 831 4092 831Q4112 831 4131.5 814.0Q4151 797 4170.0 770.5Q4189 744 4204.5 714.0Q4220 684 4231 658Q4243 658 4243 667Q4232 694 4215.5 726.5Q4199 759 4178.0 788.0Q4157 817 4132.0 836.0Q4107 855 4078 855Q4057 855 4038.5 841.0Q4020 827 4020 789Q4020 748 4039.5 707.0Q4059 666 4080 632Q4090 615 4090 605Q4090 593 4078 593Q4068 593 4050.5 603.0Q4033 613 4007 638Q3991 653 3969.5 679.5Q3948 706 3926.0 737.0Q3904 768 3888.0 798.0Q3872 828 3867 851Q3852 851 3843.0 838.5Q3834 826 3834 809Q3834 806 3834.0 803.0Q3834 800 3835 796Q3840 765 3851.0 743.5Q3862 722 3876 693Q3883 680 3892.0 662.5Q3901 645 3908.0 628.5Q3915 612 3915 601Q3915 591 3907 591Q3898 591 3883.5 600.0Q3869 609 3856.0 620.5Q3843 632 3836 638Q3811 662 3775.5 707.0Q3740 752 3698 835Q3692 846 3684.0 848.5Q3676 851 3659 851Q3648 851 3640.5 851.5Q3633 852 3625 856ZM4303 855Q4266 855 4236.5 831.0Q4207 807 4207 758Q4207 717 4225.5 671.0Q4244 625 4274.5 584.5Q4305 544 4342.5 518.5Q4380 493 4418 493Q4437 493 4455.0 504.0Q4473 515 4473 542Q4473 567 4454.0 597.0Q4435 627 4400 653Q4385 664 4362.0 674.0Q4339 684 4316.0 690.5Q4293 697 4278 697Q4273 709 4268.5 729.0Q4264 749 4264 770Q4264 795 4274.0 815.0Q4284 835 4311 835Q4344 835 4372.5 816.0Q4401 797 4423.5 768.0Q4446 739 4462.0 709.0Q4478 679 4487 658Q4499 658 4499 667Q4486 695 4469.5 728.0Q4453 761 4430.5 789.5Q4408 818 4376.5 836.5Q4345 855 4303 855ZM4285 679Q4299 679 4332.0 668.5Q4365 658 4392 635Q4418 612 4432.0 584.5Q4446 557 4446 538Q4446 516 4430 516Q4418 516 4397.0 532.0Q4376 548 4345 586Q4326 610 4309.0 638.0Q4292 666 4285 679ZM4716 851Q4682 851 4666.0 828.0Q4650 805 4650 774Q4650 765 4651.0 755.5Q4652 746 4655 736Q4641 758 4622.5 784.5Q4604 811 4580.5 830.5Q4557 850 4528 850Q4515 850 4498.5 844.0Q4482 838 4469.5 821.0Q4457 804 4457 771Q4457 728 4476.0 680.0Q4495 632 4528.0 589.5Q4561 547 4603.0 520.5Q4645 494 4690 494Q4726 494 4758 513Q4773 485 4790.0 450.5Q4807 416 4824.0 382.0Q4841 348 4854.0 319.5Q4867 291 4874 276Q4889 241 4902.5 231.5Q4916 222 4935 222Q4946 222 4959.5 224.5Q4973 227 4986 226Q4981 231 4963.0 259.0Q4945 287 4919.0 331.5Q4893 376 4863.5 429.0Q4834 482 4805.5 537.5Q4777 593 4753.0 644.0Q4729 695 4715.0 734.0Q4701 773 4701 793Q4701 806 4707.0 815.5Q4713 825 4727 825Q4746 825 4766.0 806.0Q4786 787 4804.5 758.5Q4823 730 4837.5 702.5Q4852 675 4859 658Q4871 658 4871 667Q4862 688 4847.0 719.0Q4832 750 4812.0 780.0Q4792 810 4767.5 830.5Q4743 851 4716 851ZM4535 821Q4549 821 4570.0 805.5Q4591 790 4615 756Q4643 716 4679.0 656.0Q4715 596 4750 529Q4743 523 4735.0 520.0Q4727 517 4713 517Q4690 517 4662.5 536.5Q4635 556 4607.5 587.0Q4580 618 4557.5 654.0Q4535 690 4521.5 723.5Q4508 757 4508 781Q4508 821 4535 821ZM5464 915Q5420 915 5402.0 880.5Q5384 846 5384 800Q5384 759 5395.5 719.0Q5407 679 5423 658Q5396 690 5356.0 731.0Q5316 772 5268.0 810.0Q5220 848 5169.0 873.0Q5118 898 5068 898Q5002 898 4969.5 856.0Q4937 814 4937 741Q4937 684 4956.5 618.5Q4976 553 5014 485Q5032 452 5054.5 419.5Q5077 387 5103 358Q5072 343 5043.0 324.5Q5014 306 4996.0 280.0Q4978 254 4978 218Q4978 199 4986.5 183.5Q4995 168 5005 168Q5014 168 5014 179Q5014 186 5010 194Q5005 207 5005 218Q5005 245 5024.0 268.5Q5043 292 5070.0 309.0Q5097 326 5120 336Q5184 266 5260.5 206.5Q5337 147 5425.0 111.0Q5513 75 5610 75Q5691 75 5737.0 110.5Q5783 146 5783 202Q5783 252 5754.5 287.5Q5726 323 5680.0 346.5Q5634 370 5580.5 383.5Q5527 397 5475.0 402.5Q5423 408 5384 408Q5327 408 5273.5 401.0Q5220 394 5167 379Q5141 416 5110.5 464.5Q5080 513 5052.5 566.5Q5025 620 5007.5 672.5Q4990 725 4990 770Q4990 819 5013.0 843.5Q5036 868 5075 868Q5122 868 5174.5 839.5Q5227 811 5280.0 765.0Q5333 719 5381.0 665.0Q5429 611 5467.0 558.0Q5505 505 5527 464Q5544 432 5560.0 418.5Q5576 405 5587 405Q5598 405 5604.0 413.5Q5610 422 5610 436Q5610 464 5585 492Q5551 531 5519.0 586.5Q5487 642 5467.0 702.5Q5447 763 5447 816Q5447 853 5458.5 869.0Q5470 885 5489 885Q5518 885 5547.5 865.5Q5577 846 5604.0 813.0Q5631 780 5654.0 739.5Q5677 699 5694 658Q5699 658 5702.5 659.0Q5706 660 5706 667Q5689 710 5665.5 754.0Q5642 798 5612.0 834.5Q5582 871 5545.0 893.0Q5508 915 5464 915ZM5375 384Q5415 384 5464.0 379.5Q5513 375 5561.5 363.0Q5610 351 5651.0 329.0Q5692 307 5717.0 273.0Q5742 239 5742 190Q5742 146 5705.5 123.0Q5669 100 5613 100Q5520 100 5443.5 136.5Q5367 173 5303.5 232.0Q5240 291 5183 359Q5227 372 5273.5 378.0Q5320 384 5375 384ZM5741 854Q5704 854 5686.5 831.5Q5669 809 5669 778Q5669 746 5678.0 712.0Q5687 678 5694 655Q5710 599 5734.5 535.5Q5759 472 5788.5 410.5Q5818 349 5847 300Q5870 261 5896.5 241.5Q5923 222 5943 222Q5959 222 5968.5 233.5Q5978 245 5978 268Q5978 284 5972.5 306.0Q5967 328 5954 356Q5919 434 5870.5 512.0Q5822 590 5748 658Q5736 686 5728.0 718.0Q5720 750 5720 770Q5720 832 5762 832Q5794 832 5833.0 785.5Q5872 739 5907 658Q5911 658 5915.0 659.5Q5919 661 5919 667Q5908 694 5891.5 726.5Q5875 759 5853.5 788.0Q5832 817 5804.0 835.5Q5776 854 5741 854ZM5756 626Q5792 589 5826.0 540.5Q5860 492 5889.5 439.5Q5919 387 5939 340Q5946 325 5950.5 307.0Q5955 289 5955 277Q5955 263 5948 263Q5944 263 5936.0 270.5Q5928 278 5915 296Q5896 321 5873.5 364.0Q5851 407 5828.0 456.0Q5805 505 5786.0 550.5Q5767 596 5756 626ZM5935 851Q5898 851 5883.0 829.5Q5868 808 5868 780Q5868 765 5871.5 749.5Q5875 734 5880 721L5947 550Q5950 542 5950 536Q5950 526 5945.0 518.5Q5940 511 5938 508L5993 506Q6008 505 6014.5 509.5Q6021 514 6021 520Q6021 526 6014 542Q6004 566 5987.0 602.0Q5970 638 5953.5 676.0Q5937 714 5925.5 747.0Q5914 780 5914 798Q5914 811 5920.5 820.0Q5927 829 5943 829Q5964 829 5984.5 812.5Q6005 796 6023.0 770.0Q6041 744 6056.5 714.0Q6072 684 6083 658Q6095 658 6095 667Q6085 692 6069.0 724.0Q6053 756 6032.5 784.5Q6012 813 5987.5 832.0Q5963 851 5935 851ZM6024 444Q6011 444 6001.5 434.0Q5992 424 5992 410Q5992 393 6006.0 379.5Q6020 366 6037 366Q6051 366 6061.0 375.0Q6071 384 6071 398Q6071 416 6057.0 430.0Q6043 444 6024 444Z"/>
+          </svg>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== STORY SCROLL (About → Contact) ===================== -->
+<div id="story-scroll">
+<section class="about section-pad" id="about">
+  <div class="wrap">
+    <div class="shead" data-fade><h2>The <em>story</em></h2><span class="num">01 — About</span></div>
+    <div class="about__grid">
+      <div>
+        <p class="about__lead" data-fade>I'm <b>Shaikh Ahmed Ali</b> — an MCA graduate from Bhubaneswar with a builder's mindset, turning ideas into clean, reliable code.</p>
+        <div class="about__body" data-fade>
+          <p>My journey runs from core Java foundations at CTTC, through full-stack training at QSPIDER, to shipping real dynamic web applications as a PHP Developer at Shipeasy.tech — where I integrated APIs, partnered with designers, and ran code reviews to keep quality high.</p>
+          <p>Along the way I sharpened a careful, quality-first eye as a Content Moderator at Cognizant on a Google project. I work just as well solo as in a team, stay calm under pressure, and enjoy the moment a tricky problem finally clicks into a clean solution.</p>
+        </div>
+      </div>
+      <div class="about__facts">
+        <div class="fact" data-reveal><div class="k">Based in</div><div class="v">Bhubaneswar, Odisha · India</div></div>
+        <div class="fact" data-reveal><div class="k">Open to</div><div class="v">Remote &amp; relocation</div></div>
+        <div class="fact" data-reveal>
+          <div class="k">Interests</div>
+          <div class="tags"><span>Web Dev</span><span>AI</span><span>Cyber Security</span><span>Research</span><span>Leadership</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== WORK ===================== -->
+<section class="work section-pad" id="work">
+  <div class="wrap">
+    <div class="shead" data-fade><h2>Selected <em>projects</em></h2><span class="num">02 — Projects</span></div>
+    <div class="work__list">
+
+      <!-- URL: add a live/repo link to each href when ready -->
+      <a class="proj" href="" data-proj data-cursor="View" data-reveal>
+        <span class="proj__idx">/01</span>
+        <span><span class="proj__title">Dynamic Web Application</span><span class="proj__meta">Shipeasy.tech · PHP · REST APIs · UI</span></span>
+        <span class="proj__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></span>
+      </a>
+
+      <a class="proj" href="" data-proj data-cursor="View" data-reveal>
+        <span class="proj__idx">/02</span>
+        <span><span class="proj__title">Loan Management System</span><span class="proj__meta">BCA Project · PHP · MySQL · EMI &amp; Approvals</span></span>
+        <span class="proj__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></span>
+      </a>
+
+      <a class="proj" href="" data-proj data-cursor="View" data-reveal>
+        <span class="proj__idx">/03</span>
+        <span><span class="proj__title">Online Shopping System</span><span class="proj__meta">MCA Project · PHP · MySQL · Cart &amp; Checkout</span></span>
+        <span class="proj__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></span>
+      </a>
+
+      <a class="proj" href="" data-proj data-cursor="View" data-reveal>
+        <span class="proj__idx">/04</span>
+        <span><span class="proj__title">Academic Management System</span><span class="proj__meta">MCA · College Management Module · CRUD &amp; Reports</span></span>
+        <span class="proj__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></span>
+      </a>
+
+      <a class="proj" href="" data-proj data-cursor="View" data-reveal>
+        <span class="proj__idx">/05</span>
+        <span><span class="proj__title">Online Catering Management System</span><span class="proj__meta">MCA Project · Bookings · Menu · PHP &amp; MySQL</span></span>
+        <span class="proj__arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== EXPERIENCE ===================== -->
+<section class="exp section-pad" id="experience">
+  <div class="wrap">
+    <div class="shead" data-fade><h2><em>Experience</em></h2><span class="num">03 — Career</span></div>
+    <div class="exp__list">
+
+      <article class="exp__card" data-reveal>
+        <div class="exp__top"><h3 class="exp__role"><b>Content Moderator</b> — Cognizant</h3><span class="exp__when">Apr 2025 — Present · 1 yr 3 mos</span></div>
+        <div class="exp__sub"><span class="pin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>India · Hybrid</span><span class="pin">Full-time · Google Project</span></div>
+        <p class="exp__desc">On a Google project, I evaluate content quality, relevance and policy compliance across Search &amp; Ads using Google's EWOQ tool. I refine web content to user intent, flag spam and substandard pages, and turn raw data into audience-focused output — safeguarding the experience of billions of users daily in a fast-paced, high-precision environment.</p>
+        <div class="exp__tags"><span class="chip">EWOQ</span><span class="chip">Content Development</span><span class="chip">Editing for Web</span><span class="chip">Community Moderation</span><span class="chip">QA</span></div>
+      </article>
+
+      <article class="exp__card" data-reveal>
+        <div class="exp__top"><h3 class="exp__role"><b>PHP Developer</b> — Shipeasy.tech</h3><span class="exp__when">Jun 2024 — Jun 2025 · 1 yr 1 mo</span></div>
+        <div class="exp__sub"><span class="pin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Bhubaneswar, Odisha · On-site</span><span class="pin">Full-time</span></div>
+        <p class="exp__desc">Built and maintained the backend of dynamic web applications — writing clean, efficient, secure code, modelling databases, and developing APIs for seamless data exchange. Collaborated across teams to troubleshoot issues, integrate complex systems and optimise performance end to end.</p>
+        <div class="exp__tags"><span class="chip">PHP</span><span class="chip">Laravel</span><span class="chip">Laragon</span><span class="chip">Web App Development</span><span class="chip">Project Management</span></div>
+      </article>
+
+      <article class="exp__card" data-reveal>
+        <div class="exp__top"><h3 class="exp__role"><b>Full-Stack Intern</b> — QSPIDER</h3><span class="exp__when">Jan 2024 — Jun 2024</span></div>
+        <div class="exp__sub"><span class="pin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Bhubaneswar · On-site</span><span class="pin">Internship</span></div>
+        <p class="exp__desc">Built full-stack applications to enhance user experience and functionality, researched emerging software-testing tools and methods, and supported instructors by preparing training materials for workshops.</p>
+        <div class="exp__tags"><span class="chip">Full-Stack</span><span class="chip">Software Testing</span><span class="chip">Research</span></div>
+      </article>
+
+      <article class="exp__card" data-reveal>
+        <div class="exp__top"><h3 class="exp__role"><b>Java Intern</b> — CTTC</h3><span class="exp__when">Feb 2019 — Apr 2019</span></div>
+        <div class="exp__sub"><span class="pin"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>Bhubaneswar · On-site</span><span class="pin">Internship</span></div>
+        <p class="exp__desc">Acquired core Java skills and built a strong technical foundation, developed training materials and supported team documentation throughout the programme.</p>
+        <div class="exp__tags"><span class="chip">Core Java</span><span class="chip">OOP</span><span class="chip">Documentation</span></div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SKILLS ===================== -->
+<section class="skills section-pad" id="skills">
+  <div class="wrap">
+    <div class="shead" data-fade><h2>What I <em>do</em></h2><span class="num">04 — Skills</span></div>
+    <div class="skill-grid">
+      <div class="skill-col" data-reveal>
+        <h3>Backend &amp; Languages<span>Core craft</span></h3>
+        <div class="skill-tags"><span class="skill">PHP</span><span class="skill">Laravel</span><span class="skill">Laragon</span><span class="skill">SQL</span><span class="skill">OOP</span><span class="skill">C++</span><span class="skill">C</span><span class="skill">Java</span><span class="skill">Core Java</span><span class="skill">Python</span></div>
+      </div>
+      <div class="skill-col" data-reveal>
+        <h3>Web &amp; Frontend<span>Interface</span></h3>
+        <div class="skill-tags"><span class="skill">HTML</span><span class="skill">CSS</span><span class="skill">JavaScript</span><span class="skill">Web App Development</span><span class="skill">REST APIs</span></div>
+      </div>
+      <div class="skill-col" data-reveal>
+        <h3>Content &amp; Quality<span>Cognizant / Google</span></h3>
+        <div class="skill-tags"><span class="skill">Content Development</span><span class="skill">Editing for Web</span><span class="skill">Community Moderation</span><span class="skill">Code Review</span></div>
+      </div>
+      <div class="skill-col" data-reveal>
+        <h3>Working Style<span>Soft skills</span></h3>
+        <div class="skill-tags"><span class="skill">Problem Solving</span><span class="skill">Analytical Skills</span><span class="skill">Project Management</span><span class="skill">Communication</span><span class="skill">Time Management</span><span class="skill">Leadership</span><span class="skill">English</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== EDUCATION TIMELINE ===================== -->
+<section class="edu section-pad" id="education">
+  <div class="wrap">
+    <div class="shead" data-fade><h2><em>Education</em></h2><span class="num">05 — Background</span></div>
+    <div class="timeline">
+      <div class="tl" data-reveal>
+        <div class="tl__year">2024<span>GPA 8.54 · Postgraduate</span></div>
+        <div class="tl__body"><h3>Master of Computer Applications (MCA)</h3><div class="where">Srusti Academy of Management, Bhubaneswar</div><p class="meta">Specialised in computer applications — OOP, computer science, problem solving and communication.</p></div>
+      </div>
+      <div class="tl" data-reveal>
+        <div class="tl__year">2022<span>GPA 8.51 · Undergraduate</span></div>
+        <div class="tl__body"><h3>Bachelor of Computer Applications (BCA)</h3><div class="where">Koustuv Institute of Professional Studies</div><p class="meta">Built the programming foundations — data structures, databases and web fundamentals.</p></div>
+      </div>
+      <div class="tl" data-reveal>
+        <div class="tl__year">2019<span>75% · Intermediate</span></div>
+        <div class="tl__body"><h3>Intermediate (10+2)</h3><div class="where">Vikash Residential School</div></div>
+      </div>
+      <div class="tl" data-reveal>
+        <div class="tl__year">2017<span>GPA 9.60 · Matriculation</span></div>
+        <div class="tl__body"><h3>Matriculation (10th)</h3><div class="where">Mount Litera Zee School</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CERTIFICATIONS ===================== -->
+<section class="certs section-pad">
+  <div class="wrap">
+    <div class="shead" data-fade><h2><em>Credentials</em></h2><span class="num">06 — Certifications</span></div>
+    <div class="cert-grid">
+      <div class="cert" data-reveal><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 2 2.4 7.4H22l-6 4.6 2.3 7.4L12 17l-6.3 4.4L8 14 2 9.4h7.6z"/></svg></div><div><h3>Product Development Lifecycle</h3><p>Google Developer · Workshop</p></div></div>
+      <div class="cert" data-reveal><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6z"/></svg></div><div><h3>Cyber Security Essentials</h3><p>Cisco Networking Academy</p></div></div>
+      <div class="cert" data-reveal><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 9h6v6H9z"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/></svg></div><div><h3>Artificial Intelligence</h3><p>Infosys Springboard</p></div></div>
+      <div class="cert" data-reveal><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 16 4-4-4-4M6 8l-4 4 4 4M14.5 4l-5 16"/></svg></div><div><h3>Core Java</h3><p>CTTC Bhubaneswar</p></div></div>
+      <div class="cert" data-reveal><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v6M12 22a8 8 0 0 0 8-8 8 8 0 0 0-16 0 8 8 0 0 0 8 8Z"/><path d="m9 14 2 2 4-4"/></svg></div><div><h3>Smart Learner</h3><p>Academic Recognition</p></div></div>
+      <div class="cert" data-reveal><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 22V4l12 4-12 4"/></svg></div><div><h3>Team Leadership</h3><p>Led minor &amp; mini projects · Event hosting</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SOCIALS FAN ===================== -->
+<section class="socials section-pad" id="socials">
+  <div class="wrap">
+    <div class="socials__head" data-fade>
+      <svg class="sym" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="6" width="20" height="14" rx="3"/><path d="M8 6 9.5 3h5L16 6"/><circle cx="12" cy="13" r="3.5"/></svg>
+      <h2>What's up<em>on socials</em></h2>
+    </div>
+  </div>
+  <!-- IMG: social-1 ... social-6 — vertical 9:16 cards -->
+  <div class="fan">
+    <figure class="fan__card" data-cursor=""><div class="slot-label"><span class="lab">Social 1</span></div><img src="images/social-1.jpg" alt="" onerror="this.style.display='none'"></figure>
+    <figure class="fan__card" data-cursor=""><div class="slot-label"><span class="lab">Social 2</span></div><img src="images/social-2.jpg" alt="" onerror="this.style.display='none'"></figure>
+    <figure class="fan__card" data-cursor=""><div class="slot-label"><span class="lab">Social 3</span></div><img src="images/social-3.jpg" alt="" onerror="this.style.display='none'"></figure>
+    <figure class="fan__card" data-cursor=""><div class="slot-label"><span class="lab">Social 4</span></div><img src="images/social-4.jpg" alt="" onerror="this.style.display='none'"></figure>
+    <figure class="fan__card" data-cursor=""><div class="slot-label"><span class="lab">Social 5</span></div><img src="images/social-5.jpg" alt="" onerror="this.style.display='none'"></figure>
+    <figure class="fan__card" data-cursor=""><div class="slot-label"><span class="lab">Social 6</span></div><img src="images/social-6.jpg" alt="" onerror="this.style.display='none'"></figure>
+  </div>
+  <div class="wrap socials__follow" data-fade>
+    <p class="socials__cap">Follow me on social media</p>
+    <div class="socials__links">
+      <a href="https://www.instagram.com/ehhhmedali?igsh=M3ZzdXRjOHd3OWR5" target="_blank" rel="noopener" data-cursor="Open">Instagram</a>
+      <a href="https://www.facebook.com/share/18aLRF1msv/" target="_blank" rel="noopener" data-cursor="Open">Facebook</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CONTACT ===================== -->
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div class="contact__lead" data-fade>Let's build something</div>
+    <h2 class="contact__big" data-words>Get <em>in touch</em></h2>
+    <div class="contact__cols">
+      <!-- LEFT: send a note (static mailto form) -->
+      <div class="cbox" data-reveal>
+        <div class="cbox__head"><span class="cbox__title">¶ Send a note</span><span class="cbox__tag">Direct message</span></div>
+        <div class="topics" role="group" aria-label="What is this about?">
+          <button type="button" class="topic is-active" data-topic="Full-time role">Full-time role</button>
+          <button type="button" class="topic" data-topic="Freelance / Contract">Freelance</button>
+          <button type="button" class="topic" data-topic="Collaboration">Collaboration</button>
+          <button type="button" class="topic" data-topic="Other">Other</button>
+        </div>
+        <div class="form-grid">
+          <div class="field"><label for="cName">Name</label><input id="cName" type="text" autocomplete="name" placeholder="Your name"></div>
+          <div class="field"><label for="cEmail">Email</label><input id="cEmail" type="email" autocomplete="email" inputmode="email" placeholder="you@email.com"></div>
+          <div class="field field--full"><label for="cNote">Note</label><textarea id="cNote" rows="4" placeholder="Tell me about the role, project, or idea you have in mind."></textarea></div>
+        </div>
+        <div class="cbox__actions">
+          <button type="button" class="btn-send" id="sendNote" data-cursor="Send">Send message
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+          <button type="button" class="btn-ghost" id="copyEmail" data-cursor="Copy">Copy email</button>
+        </div>
+        <p class="cbox__hint">Opens your email app, pre-filled. Prefer to write directly? Just copy the address.</p>
+      </div>
+
+      <!-- RIGHT: correspondence channels -->
+      <div class="cbox cbox--info" data-reveal>
+        <div class="cbox__head"><span class="cbox__title">¶ Correspondence</span><span class="cbox__tag">Three channels</span></div>
+        <div class="chans">
+          <a class="chan" href="mailto:shaikhahmedali839@gmail.com" data-cursor="Mail">
+            <span class="chan__k">Email</span><span class="chan__v">shaikhahmedali839@gmail.com</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+          <a class="chan" href="https://www.linkedin.com/in/shaikhahmedali" target="_blank" rel="noopener" data-cursor="Open">
+            <span class="chan__k">LinkedIn</span><span class="chan__v">linkedin.com/in/shaikhahmedali</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></a>
+          <a class="chan" href="tel:+918114353560" data-cursor="Call">
+            <span class="chan__k">Phone</span><span class="chan__v">+91 81143 53560</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.5 2.1L8 9.6a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.8.3 1.7.5 2.6.6a2 2 0 0 1 1.7 2Z"/></svg></a>
+        </div>
+        <div class="cbox__foot"><span class="live" aria-hidden="true"></span> Open to opportunities · Replies within 24h</div>
+      </div>
+    </div>
+  </div>
+</section>
+</div><!-- /story-scroll -->
+
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="footer">
+  <div class="wrap footer__row">
+    <span>© <span id="yr"></span> Shaikh Ahmed Ali — PHP Developer</span>
+    <span>Built with motion &amp; care</span>
+    <a href="#top" class="to-top" data-cursor="Top">Back to top
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
+    </a>
+  </div>
+</footer>
+
+<!-- ===================== SCRIPTS (CDN, progressively enhanced) ===================== -->
+<!-- Animation libraries are self-hosted in /vendor — no external CDN dependency. -->
+<script src="vendor/gsap.min.js" defer></script>
+<script src="vendor/ScrollTrigger.min.js" defer></script>
+<script src="vendor/lenis.min.js" defer></script>
+<script defer>
+document.getElementById('yr').textContent = new Date().getFullYear();
+const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const FINE = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+
+window.addEventListener('load', () => {
+  const hasGSAP = typeof gsap !== 'undefined';
+  const hasST = typeof ScrollTrigger !== 'undefined';
+  const hasLenis = typeof Lenis !== 'undefined';
+  if (hasGSAP && hasST) gsap.registerPlugin(ScrollTrigger);
+
+  /* ---------- LETTER ROLL on skill chips + social links (play once, no reverse) ---------- */
+  (function(){
+    if(!FINE) return;
+    var els=[].slice.call(document.querySelectorAll('.skill, .socials__links a'));
+    if(!els.length) return;
+    var step=24;
+    function graphemes(t){
+      if(typeof Intl!=='undefined' && Intl.Segmenter){
+        var seg=new Intl.Segmenter('en',{granularity:'grapheme'});
+        return Array.from(seg.segment(t), function(s){return s.segment;});
+      }
+      return Array.from(t);
+    }
+    function splitInto(node){
+      [].slice.call(node.childNodes).forEach(function(n){
+        if(n.nodeType===3){
+          var frag=document.createDocumentFragment();
+          graphemes(n.textContent).forEach(function(ch){
+            if(ch===' '){ frag.appendChild(document.createTextNode(' ')); return; }
+            var g=document.createElement('span'); g.className='casc-g'; g.textContent=ch; frag.appendChild(g);
+          });
+          n.replaceWith(frag);
+        } else if(n.nodeType===1){ splitInto(n); }
+      });
+    }
+    els.forEach(function(el){
+      el.classList.add('casc-host');
+      var line=document.createElement('span'); line.className='casc-line';
+      while(el.firstChild){ line.appendChild(el.firstChild); }
+      splitInto(line);
+      el.appendChild(line);
+      var glyphs=[].slice.call(el.querySelectorAll('.casc-g'));
+      var on=false;
+      function nearest(x){ var b=0,bd=Infinity; for(var i=0;i<glyphs.length;i++){ var r=glyphs[i].getBoundingClientRect(); var c=r.left+r.width/2, d=Math.abs(c-x); if(d<bd){bd=d;b=i;} } return b; }
+      el.addEventListener('pointerenter',function(e){
+        if(on) return; on=true;
+        var hi=nearest(e.clientX);
+        glyphs.forEach(function(g,i){ g.style.transition=''; g.style.transitionDelay=(Math.abs(i-hi)*step)+'ms'; });
+        el.classList.add('casc-on');
+      });
+      el.addEventListener('pointerleave',function(){
+        on=false;
+        glyphs.forEach(function(g){ g.style.transition='none'; });
+        el.classList.remove('casc-on');
+        void el.offsetWidth;
+        glyphs.forEach(function(g){ g.style.transition=''; });
+      });
+    });
+  })();
+
+  /* ---------- LOADER ---------- */
+  const loader = document.getElementById('loader');
+  const count = document.getElementById('count');
+  const bar = document.getElementById('bar');
+  function finishLoad(){
+    window.__loaderHandled = true;
+    if (loader && loader.parentNode){
+      if (hasGSAP){ gsap.to(loader,{yPercent:-100,duration:.9,ease:'power4.inOut',onComplete:()=>loader.remove(),delay:.15}); }
+      else { loader.style.transition='opacity .5s'; loader.style.opacity='0'; setTimeout(()=>loader.remove(),500); }
+    }
+    startEntrance();
+  }
+  if (REDUCED){ count.textContent='100'; bar.style.width='100%'; setTimeout(finishLoad,250); }
+  else {
+    let p=0;
+    const tick=setInterval(()=>{
+      p+=Math.max(1,Math.round((100-p)*0.12));
+      if(p>=100){p=100;clearInterval(tick);setTimeout(finishLoad,180);}
+      count.textContent=p; bar.style.width=p+'%';
+    },45);
+  }
+
+  /* ---------- SMOOTH SCROLL ---------- */
+  let lenis=null;
+  if (hasLenis && !REDUCED){
+    lenis = new Lenis({duration:1.1,easing:t=>Math.min(1,1.001-Math.pow(2,-10*t)),smoothWheel:true});
+    function raf(t){lenis.raf(t);requestAnimationFrame(raf);} requestAnimationFrame(raf);
+    if (hasST){ lenis.on('scroll', ScrollTrigger.update); }
+  }
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click',e=>{
+      const id=a.getAttribute('href'); if(id.length<2)return;
+      const el=document.querySelector(id); if(!el)return;
+      e.preventDefault(); closeMenu();
+      if(lenis){lenis.scrollTo(el,{offset:0,duration:1.2});}
+      else{el.scrollIntoView({behavior:REDUCED?'auto':'smooth'});}
+    });
+  });
+
+  /* ---------- MENU ---------- */
+  const menu=document.getElementById('menu');
+  const openBtn=document.getElementById('menuOpen');
+  const closeBtn=document.getElementById('menuClose');
+  function openMenu(){menu.classList.add('open');menu.setAttribute('aria-hidden','false');if(lenis)lenis.stop();}
+  function closeMenu(){menu.classList.remove('open');menu.setAttribute('aria-hidden','true');if(lenis)lenis.start();}
+  openBtn.addEventListener('click',openMenu);
+  closeBtn.addEventListener('click',closeMenu);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu();});
+
+  /* ---------- AUTO-HIDE NAV (hide on scroll down, reveal on scroll up — no overlap with content) ---------- */
+  (function(){
+    var nav=document.querySelector('.nav');
+    if(!nav) return;
+    var lastY=(window.scrollY||0), hidden=false;
+    function show(){ if(hidden){ nav.style.transform=''; hidden=false; } }
+    function hide(){ if(!hidden){ nav.style.transform='translateY(-135%)'; hidden=true; } }
+    function update(y){
+      if(menu.classList.contains('open')){ show(); lastY=y; return; }   // keep visible while menu is open
+      if(y>lastY+4 && y>150){ hide(); }                                  // scrolling down past the hero → hide
+      else if(y<lastY-4 || y<80){ show(); }                              // scrolling up or near top → reveal
+      lastY=y;
+    }
+    if(lenis){ lenis.on('scroll',function(e){ update((e&&e.scroll!=null)?e.scroll:(window.scrollY||0)); }); }
+    else { window.addEventListener('scroll',function(){ update(window.scrollY||0); },{passive:true}); }
+  })();
+
+  /* ---------- CUSTOM CURSOR ---------- */
+  if (FINE && !REDUCED){
+    document.documentElement.classList.add('has-cursor');
+    const cur=document.querySelector('.cursor'), dot=document.querySelector('.cursor-dot');
+    const label=cur.querySelector('.cursor-label');
+    let mx=innerWidth/2,my=innerHeight/2,cx=mx,cy=my;
+    addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.transform=`translate(${mx}px,${my}px) translate(-50%,-50%)`;});
+    (function loop(){cx+=(mx-cx)*.18;cy+=(my-cy)*.18;cur.style.transform=`translate(${cx}px,${cy}px) translate(-50%,-50%)`;requestAnimationFrame(loop);})();
+    document.querySelectorAll('a,button,[data-cursor]').forEach(el=>{
+      el.addEventListener('mouseenter',()=>{cur.classList.add('is-hover');const t=el.getAttribute('data-cursor');label.textContent=(t&&t.length)?t:'';});
+      el.addEventListener('mouseleave',()=>cur.classList.remove('is-hover'));
+    });
+    document.querySelectorAll('.pill,.menu-btn,.proj__arrow,.to-top,.btn-dark,.btn-line,.btn-send,.btn-ghost').forEach(el=>{
+      el.addEventListener('mousemove',e=>{const r=el.getBoundingClientRect();const x=e.clientX-r.left-r.width/2;const y=e.clientY-r.top-r.height/2;el.style.transform=`translate(${x*.3}px,${y*.4}px)`;});
+      el.addEventListener('mouseleave',()=>{el.style.transform='';});
+    });
+  }
+
+  /* ---------- CONTACT FORM (static, mailto) ---------- */
+  (function(){
+    const EMAIL='shaikhahmedali839@gmail.com'; /* Send message → mailto here; Copy email → clipboard */
+    let topic='Full-time role';
+    document.querySelectorAll('.topic').forEach(b=>{
+      b.addEventListener('click',()=>{
+        document.querySelectorAll('.topic').forEach(x=>x.classList.remove('is-active'));
+        b.classList.add('is-active'); topic=b.getAttribute('data-topic');
+      });
+    });
+    const val=id=>{const el=document.getElementById(id);return el?el.value.trim():'';};
+    const send=document.getElementById('sendNote');
+    if(send) send.addEventListener('click',()=>{
+      const name=val('cName'),email=val('cEmail'),note=val('cNote');
+      const subject=encodeURIComponent('Portfolio enquiry — '+topic);
+      const body=encodeURIComponent('Name: '+(name||'—')+'\nReply to: '+(email||'—')+'\nTopic: '+topic+'\n\n'+(note||''));
+      window.location.href='mailto:'+EMAIL+'?subject='+subject+'&body='+body;
+    });
+    const copy=document.getElementById('copyEmail');
+    if(copy) copy.addEventListener('click',()=>{
+      const flash=(msg)=>{const prev=copy.textContent;copy.textContent=msg;setTimeout(()=>{copy.textContent=prev;},1600);};
+      if(!EMAIL){flash('Email coming soon');return;}
+      const ok=()=>flash('Copied ✓');
+      const fallback=()=>{const ta=document.createElement('textarea');ta.value=EMAIL;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok();}catch(e){}ta.remove();};
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(EMAIL).then(ok).catch(fallback);}else{fallback();}
+    });
+  })();
+
+  /* ---------- HANDCRAFTED: 3D image tilt on hover ---------- */
+  if (FINE && !REDUCED){
+    document.querySelectorAll('.portrait, .feature__media').forEach(function(fig){
+      var img=fig.querySelector('img'); if(!img) return;
+      fig.addEventListener('mousemove',function(e){
+        var r=fig.getBoundingClientRect();
+        var px=(e.clientX-r.left)/r.width-0.5, py=(e.clientY-r.top)/r.height-0.5;
+        img.style.transform='perspective(900px) rotateX('+(-py*6).toFixed(2)+'deg) rotateY('+(px*8).toFixed(2)+'deg) scale(1.06)';
+      });
+      fig.addEventListener('mouseleave',function(){ img.style.transform=''; });
+    });
+  }
+
+  /* ---------- HANDCRAFTED: hero stat count-up (falls back to final text) ---------- */
+  (function(){
+    var stats=document.querySelectorAll('.hero__stats .st b');
+    if(!stats.length || REDUCED || !('IntersectionObserver' in window)) return;
+    stats.forEach(function(b){ b.dataset.final=b.textContent.trim(); });
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(!e.isIntersecting) return; io.disconnect();
+        stats.forEach(function(b){
+          var raw=b.dataset.final, m=raw.match(/^([0-9.]+)(.*)$/); if(!m){return;}
+          var target=parseFloat(m[1]), suffix=m[2]||'', dec=(m[1].split('.')[1]||'').length;
+          var t0=performance.now(), dur=1500;
+          (function tick(now){ var p=Math.min(1,(now-t0)/dur), e2=1-Math.pow(1-p,3);
+            b.textContent=(target*e2).toFixed(dec)+suffix;
+            if(p<1) requestAnimationFrame(tick); else b.textContent=raw;
+          })(t0);
+        });
+      });
+    },{threshold:.6});
+    io.observe(document.querySelector('.hero__stats'));
+  })();
+
+  /* ---------- SOCIALS FAN: reactive distance-based spread (à la Lando) ---------- */
+  (function(){
+    var fan=document.querySelector('.fan');
+    if(!fan || !FINE || REDUCED) return;
+    var cards=[].slice.call(fan.querySelectorAll('.fan__card'));
+    var base=[[-14,40],[-8,16],[-3,4],[3,4],[8,16],[14,40]];
+    function apply(active){
+      cards.forEach(function(c,i){
+        if(i===active){
+          c.style.transform='translate(0px,-34px) rotate(0deg) scale(1.12)';
+          c.style.zIndex='40';
+          c.style.boxShadow='0 40px 70px rgba(0,0,0,.32)';
+        } else {
+          var d=i-active, dir=d<0?-1:1, ad=Math.abs(d);
+          var tx=dir*(60+(ad-1)*34);
+          var rot=(base[i]?base[i][0]:0)*0.45;
+          c.style.transform='translate('+tx+'px,-8px) rotate('+rot+'deg) scale(1)';
+          c.style.zIndex=String(20-ad);
+          c.style.boxShadow='';
+        }
+      });
+    }
+    function reset(){ cards.forEach(function(c){ c.style.transform=''; c.style.zIndex=''; c.style.boxShadow=''; }); }
+    var lastIdx=-1;
+    function pick(x){ var idx=0,best=Infinity; for(var i=0;i<cards.length;i++){ var r=cards[i].getBoundingClientRect(); var cx=(r.left+r.right)/2, dd=Math.abs(cx-x); if(dd<best){best=dd;idx=i;} } return idx; }
+    fan.addEventListener('mousemove',function(e){ var idx=pick(e.clientX); if(idx!==lastIdx){ lastIdx=idx; apply(idx); } });
+    fan.addEventListener('mouseleave',function(){ lastIdx=-1; reset(); });
+  })();
+
+  /* ---------- NAV colour adapts to the section behind it (replaces blend inversion) ---------- */
+  (function(){
+    var nav=document.querySelector('.nav');
+    if(!nav) return;
+    var darks=[].slice.call(document.querySelectorAll('.strip, .manifesto, .feature, .exp, .edu, .contact'));
+    var navY=44;
+    function update(){
+      var dark=false;
+      for(var i=0;i<darks.length;i++){ var r=darks[i].getBoundingClientRect(); if(r.top<=navY && r.bottom>=navY){ dark=true; break; } }
+      nav.classList.toggle('is-dark', dark);
+    }
+    update();
+    window.addEventListener('scroll', update, {passive:true});
+    window.addEventListener('resize', update);
+    if(typeof lenis!=='undefined' && lenis && lenis.on) lenis.on('scroll', update);
+  })();
+
+  if (!hasGSAP){ return; } /* no lib → content already visible */
+
+  /* ---------- ENTRANCE ---------- */
+  function startEntrance(){
+    if (REDUCED) return;
+    const tl=gsap.timeline({delay:.05});
+    tl.from('[data-hero] span',{yPercent:115,duration:1,ease:'power4.out',stagger:.08})
+      .from('.hero__role,.hero__lede,.hero__cta,.hero__stats',{y:30,opacity:0,duration:.8,ease:'power3.out',stagger:.08},'-=.6');
+  }
+
+  /* When the story-scroll takes over (desktop), its panels manage their own reveal —
+     skip the per-element scroll reveals inside it so nothing is ever left hidden while pinned. */
+  var STORY_ACTIVE = !REDUCED && window.matchMedia('(min-width:768px)').matches;
+
+  /* ---------- SECTION-AWARE SCROLL REVEALS (varied motion per section) ---------- */
+  if(!REDUCED){
+    // baseline fade-up for eyebrows / section heads / small bits (hero handled by its own entrance)
+    gsap.utils.toArray('[data-fade]').forEach(function(el){
+      if(el.closest('.hero')) return;
+      if(STORY_ACTIVE && el.closest('#story-scroll')) return;
+      gsap.from(el,{y:34,opacity:0,duration:.9,ease:'power3.out',clearProps:'transform',scrollTrigger:{trigger:el,start:'top 85%'}});
+    });
+    // tailored reveal keyed to each section's content
+    gsap.utils.toArray('[data-reveal]').forEach(function(el){
+      if(STORY_ACTIVE && el.closest('#story-scroll')) return;
+      var c=(el.closest('section')||document.body).className||'';
+      var base={trigger:el,start:'top 80%'};
+      if(c.indexOf('work')>-1){                 // PROJECTS — horizontal slide-in
+        gsap.from(el,{x:-90,rotate:-2,opacity:0,duration:1.05,ease:'back.out(1.5)',clearProps:'transform',scrollTrigger:base});
+      } else if(c.indexOf('exp')>-1){           // EXPERIENCE — soft float-up, sequential
+        gsap.from(el,{y:80,scale:.94,opacity:0,duration:1.05,ease:'back.out(1.4)',clearProps:'transform',scrollTrigger:base});
+      } else if(c.indexOf('skills')>-1){        // SKILLS — column lift + chip stagger-pop
+        gsap.from(el,{y:44,opacity:0,duration:.9,ease:'power3.out',clearProps:'transform',scrollTrigger:base});
+        var chips=el.querySelectorAll('.skill');
+        if(chips.length){[].forEach.call(chips,function(ch){ch.style.transition='none';});gsap.from(chips,{scale:.55,opacity:0,duration:.6,ease:'back.out(1.9)',stagger:{each:.03,from:'start'},clearProps:'transform',scrollTrigger:{trigger:el,start:'top 80%'},onComplete:function(){[].forEach.call(chips,function(ch){ch.style.transition='';});}});}
+      } else if(c.indexOf('edu')>-1){           // EDUCATION — directional slide from left
+        gsap.from(el,{x:-80,rotate:-1.5,opacity:0,duration:1,ease:'back.out(1.4)',clearProps:'transform',scrollTrigger:base});
+      } else if(c.indexOf('certs')>-1){         // CREDENTIALS — scale pop
+        el.style.transition='none';gsap.from(el,{scale:.68,rotate:-6,opacity:0,duration:.85,ease:'back.out(1.9)',clearProps:'transform',scrollTrigger:base,onComplete:function(){el.style.transition='';}});
+      } else if(c.indexOf('about')>-1){         // STORY — slide from right
+        el.style.transition='none';gsap.from(el,{x:70,rotate:2,opacity:0,duration:1,ease:'back.out(1.4)',clearProps:'transform',scrollTrigger:base,onComplete:function(){el.style.transition='';}});
+      } else if(c.indexOf('contact')>-1){       // CONTACT — blur removal + scale
+        gsap.from(el,{scale:.9,opacity:0,filter:'blur(16px)',duration:1.1,ease:'back.out(1.3)',clearProps:'transform,filter',scrollTrigger:base});
+      } else {
+        gsap.from(el,{y:46,opacity:0,duration:.9,ease:'power3.out',clearProps:'transform',scrollTrigger:base});
+      }
+    });
+    // SOCIALS — staggered card entrance from the centre (keeps the CSS fan transforms intact)
+    var fanCards=STORY_ACTIVE ? [] : gsap.utils.toArray('.fan__card');
+    if(fanCards.length){
+      gsap.from(fanCards,{opacity:0,duration:.6,ease:'power2.out',stagger:{each:.08,from:'center'},clearProps:'opacity',scrollTrigger:{trigger:'.socials',start:'top 72%'}});
+      gsap.from(document.querySelectorAll('.fan__card img'),{scale:.5,opacity:0,duration:.8,ease:'back.out(1.7)',stagger:{each:.08,from:'center'},clearProps:'transform',scrollTrigger:{trigger:'.socials',start:'top 72%'}});
+    }
+    // WORD REVEAL (manifesto + contact heading) — content masking
+    gsap.utils.toArray('[data-words]').forEach(function(block){
+      if(STORY_ACTIVE && block.closest('#story-scroll')) return; // managed by story-scroll
+      const tmp=document.createElement('div'); tmp.innerHTML=block.innerHTML;
+      (function wrap(node){
+        node.childNodes.forEach(function(child){
+          if(child.nodeType===3){
+            const frag=document.createDocumentFragment();
+            child.textContent.split(/(\s+)/).forEach(function(part){
+              if(part.trim()===''){frag.appendChild(document.createTextNode(part));return;}
+              const w=document.createElement('span');w.className='w';
+              const inner=document.createElement('span');inner.textContent=part;
+              w.appendChild(inner);frag.appendChild(w);
+            });
+            child.replaceWith(frag);
+          } else if(child.nodeType===1){ wrap(child); }
+        });
+      })(tmp);
+      block.innerHTML=tmp.innerHTML;
+      gsap.from(block.querySelectorAll('.w>span'),{yPercent:115,duration:.9,ease:'power4.out',stagger:.045,scrollTrigger:{trigger:block,start:'top 82%'}});
+    });
+  }
+
+  /* ---------- PARALLAX + MARQUEE ---------- */
+  if(!REDUCED){
+    gsap.utils.toArray('[data-parallax]').forEach(el=>{
+      const amt=parseFloat(el.getAttribute('data-parallax'));
+      gsap.to(el,{yPercent:amt*100,ease:'none',scrollTrigger:{trigger:el,start:'top bottom',end:'bottom top',scrub:true}});
+    });
+    gsap.utils.toArray('[data-marquee]').forEach(el=>{
+      const dir=parseFloat(el.getAttribute('data-marquee'));
+      gsap.to(el,{xPercent:-50*dir,ease:'none',scrollTrigger:{trigger:el,start:'top bottom',end:'bottom top',scrub:1}});
+    });
+  }
+
+  /* ---------- FEATURE: scroll-expand image, then sign it (autograph overlay) ---------- */
+  (function(){
+    var sigPath=document.getElementById('sigPath');
+    var media=document.querySelector('.feature__media');
+    var overlay=document.querySelector('.feature__sign');
+    var armed=false;
+    if(sigPath && !REDUCED){
+      var len=sigPath.getTotalLength();
+      sigPath.style.strokeDasharray=len; sigPath.style.strokeDashoffset=len; sigPath.style.fillOpacity='0';
+      sigPath.style.transition='stroke-dashoffset 1.3s cubic-bezier(.6,0,.2,1), fill-opacity .55s ease .85s';
+      if(overlay) overlay.style.opacity='0';
+      armed=true;
+    }
+    var played=false;
+    function playSig(){ if(played) return; played=true;
+      if(overlay) overlay.style.opacity='1';
+      if(armed && sigPath){ sigPath.style.strokeDashoffset='0'; sigPath.style.fillOpacity='1'; }
+    }
+    if(media && hasST && !REDUCED){
+      gsap.fromTo(media,{scale:0.52},{scale:1,ease:'none',
+        scrollTrigger:{trigger:'.feature__track',start:'top top',end:'bottom bottom',scrub:true,
+          onUpdate:function(self){ if(self.progress>0.82) playSig(); }}});
+      ScrollTrigger.create({trigger:'.feature__track',start:'bottom center',once:true,onEnter:playSig});
+      setTimeout(function(){ if(!played) playSig(); }, 16000);
+    } else { playSig(); }
+  })();
+
+  /* ============================== STORY SCROLL ENGINE ==============================
+     One pinned stage. Panels are stacked (absolute) and z-ordered.
+     Per panel, tied 1:1 to scroll: (1) slide up from below at an angle over the
+     static previous panel, (2) scroll its inner content up to expose EVERYTHING,
+     (3) hold on the fully-read panel, then the next panel slides in.
+     Reversible. Desktop only — mobile/reduced-motion keep plain stacked scrolling. */
+  function buildStory(){
+    if(!STORY_ACTIVE || !hasST) return;
+    var sw=document.getElementById('story-scroll');
+    if(!sw) return;
+    var panels=[].slice.call(sw.children).filter(function(n){return n.tagName==='SECTION';});
+    if(!panels.length) return;
+
+    var ANGLE=10; /* rotation (deg) of the incoming panel — matches the reference tilt */
+
+    /* wrap each panel's content so we can slide the panel and scroll its content independently */
+    panels.forEach(function(sec,i){
+      var inner=document.createElement('div'); inner.className='scene-inner';
+      while(sec.firstChild){ inner.appendChild(sec.firstChild); }
+      sec.appendChild(inner);
+      sec.style.zIndex=String(10+i*10);
+    });
+
+    sw.classList.add('is-active');     /* panels become absolute, full-viewport, stacked */
+    ScrollTrigger.refresh();           /* settle layout before measuring */
+
+    var vh=window.innerHeight;
+    var data=panels.map(function(sec){
+      var inner=sec.querySelector('.scene-inner');
+      var bottomGap=Math.round(vh*0.06);                       /* clear the last line before next slides over */
+      var excess=Math.max(0, inner.scrollHeight - sec.clientHeight + bottomGap);
+      return {sec:sec, inner:inner, excess:excess};
+    });
+
+    /* arm panels 2..N off-screen: fully below + rotated */
+    data.forEach(function(d,i){ if(i>0) gsap.set(d.sec,{yPercent:100, rotation:ANGLE}); });
+
+    var slideInPx=Math.round(vh*0.90);   /* scroll length for a panel to glide in */
+    var holdPx   =Math.round(vh*0.60);   /* generous dwell on the fully-read panel */
+
+    /* total pinned scroll length = sum of every panel's (slide-in + reveal + hold) */
+    var total=0;
+    data.forEach(function(d,i){ total += (i>0?slideInPx:0) + d.excess + holdPx; });
+
+    var tl=gsap.timeline({
+      scrollTrigger:{ trigger:sw, start:'top top', end:'+='+total, pin:true, scrub:1, anticipatePin:1 }
+    });
+
+    var t=0;
+    data.forEach(function(d,i){
+      if(i>0){                                               /* 1. slide in over the static previous panel */
+        tl.to(d.sec,{yPercent:0, rotation:0, ease:'power2.out', duration:slideInPx}, t);
+        t+=slideInPx;
+      }
+      if(d.excess>0){                                        /* 2. reveal: scroll content up 1:1, exposing all of it */
+        tl.to(d.inner,{y:-d.excess, ease:'none', duration:d.excess}, t);
+        t+=d.excess;
+      }
+      t+=holdPx;                                             /* 3. hold on the fully-read panel */
+    });
+    /* final dwell on the last panel so the timeline length matches the pinned scroll length */
+    tl.to({_:0},{_:1, duration:holdPx});
+
+    ScrollTrigger.refresh();
+  }
+  /* build after fonts settle so content heights (hence reveal distances) are exact */
+  if(document.fonts && document.fonts.ready){ document.fonts.ready.then(buildStory); } else { buildStory(); }
+
+  ScrollTrigger.refresh();
+});
+</script>
+
+
+</body>
+</html>
